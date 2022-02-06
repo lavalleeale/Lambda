@@ -2,7 +2,7 @@ import type { GetServerSideProps, NextPage, PageConfig } from "next";
 import Head from "next/head";
 import { getId, userCookie } from "../../lib/user";
 
-type NewSectionProps = { user: userCookie | null; error: string | undefined };
+type NewSectionProps = { user: userCookie | null; error: string | null };
 
 const NewSection: NextPage<NewSectionProps> = ({ user, error }) => {
   return (
@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps<NewSectionProps> = async (
   return {
     props: {
       user: getId(ctx.req),
-      error: ctx.query.error as string | undefined,
+      error: ctx.query.error ? (ctx.query.error as string) : null,
     },
   };
 };

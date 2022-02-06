@@ -40,7 +40,15 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (
   const user = await prisma!.user.findUnique({
     where: { name: ctx.params?.name as string },
     include: {
-      posts: { select: { title: true, body: true, id: true, sectionId: true } },
+      posts: {
+        select: {
+          title: true,
+          body: true,
+          id: true,
+          sectionId: true,
+          author: { select: { name: true } },
+        },
+      },
     },
   });
 

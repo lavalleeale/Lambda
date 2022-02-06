@@ -20,18 +20,20 @@ const SectionPage: NextPage<SectionPageProps> = ({ section }) => {
       </Head>
       {section ? (
         <div className="flex">
-          <div className="paper w-3/4">
-            <p className="text-3xl capitalize">{section.name} </p>
+          <div className="w-3/4">
+            <div className="paper">
+              <p className="text-3xl capitalize">{section.name} </p>
+            </div>
+            <div>
+              {section.posts.map((post) => (
+                <PostComponent key={post.id} post={post} hideFrom />
+              ))}
+            </div>
           </div>
           <div className="paper overflow-auto w-1/4">
             <form action={`/d/${section.name}/submit`} method="POST">
               <button className="btn-pill btn-white w-full">Create Post</button>
             </form>
-          </div>
-          <div>
-            {section.posts.map((post) => (
-              <PostComponent key={post.id} post={post} />
-            ))}
           </div>
         </div>
       ) : (
@@ -47,7 +49,15 @@ export const getServerSideProps: GetServerSideProps<SectionPageProps> = async (
   const section = await prisma!.section.findUnique({
     where: { name: ctx.params?.name as string },
     include: {
-      posts: { select: { id: true, title: true, body: true, sectionId: true } },
+      posts: {
+        select: {
+          id: true,
+          title: true,
+          body: true,
+          sectionId: true,
+          author: { select: { name: true } },
+        },
+      },
     },
   });
   if (!section) {

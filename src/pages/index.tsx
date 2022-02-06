@@ -4,7 +4,11 @@ import Head from "next/head";
 import PostComponent from "../components/Post";
 import prisma from "../lib/prisma";
 
-const Home: NextPage<{ posts: Post[] }> = (props) => {
+type HomePageProps = {
+  posts: (PublicPostData & { author: { name: string } })[];
+};
+
+const Home: NextPage<HomePageProps> = (props) => {
   return (
     <>
       <Head>
@@ -36,10 +40,18 @@ const Home: NextPage<{ posts: Post[] }> = (props) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
+  context
+) => {
   const posts = await prisma!.post.findMany({
     take: 10,
-    select: { title: true, body: true, id: true, sectionId: true },
+    select: {
+      title: true,
+      body: true,
+      id: true,
+      sectionId: true,
+      author: { select: { name: true } },
+    },
   });
   return {
     props: { posts },
