@@ -1,7 +1,5 @@
 import Link from "next/link";
 import React from "react";
-import { UserCircleIcon } from "@heroicons/react/outline";
-import { User } from "@prisma/client";
 import { userCookie } from "../lib/user";
 
 const Header = ({ user }: { user: userCookie | null }) => {
@@ -14,8 +12,11 @@ const Header = ({ user }: { user: userCookie | null }) => {
       </Link>
       <Link href={user ? `/u/${user.name}` : "/login"}>
         <a className="float-right text-white">
-          <p className="inline">{user?.name}</p>
-          <UserCircleIcon className="w-7 inline" />
+          {user?.name ? (
+            <p className="inline">{user.name}</p>
+          ) : (
+            <p className="inline">Login</p>
+          )}
         </a>
       </Link>
     </div>

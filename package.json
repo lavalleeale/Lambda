@@ -9,7 +9,6 @@
     "cypress": "cypress open"
   },
   "dependencies": {
-    "@heroicons/react": "^1.0.5",
     "@prisma/client": "^3.9.1",
     "cookie": "^0.4.1",
     "dotenv-safe": "^8.2.0",
