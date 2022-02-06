@@ -14,7 +14,7 @@
     "cookie": "^0.4.1",
     "dotenv-safe": "^8.2.0",
     "jsonwebtoken": "^8.5.1",
-    "next": "12.0.7",
+    "next": "12.0.9",
     "openpgp": "^5.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2"
