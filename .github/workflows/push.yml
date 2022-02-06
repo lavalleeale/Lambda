@@ -3,33 +3,34 @@ name: Build
 on: [push, pull_request]
 
 jobs:
-  # build:
-  #   name: "Build NextJS"
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@master
+  build:
+    name: "Build & Lint NextJS"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
 
-  #     - name: Cache node modules
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: node_modules
-  #         key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-
 
-  #     - uses: actions/setup-node@master
-  #       with:
-  #         node-version: 16.13
+      - uses: actions/setup-node@master
+        with:
+          node-version: 16.13
 
-  #     - name: Install dependencies
-  #       run: yarn install --frozen-lockfile
-
-  #     - name: Build
-  #       run: yarn build
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Lint
+        run: yarn lint
+      - name: Build
+        run: yarn build
   test:
     name: "Test with Cypress"
     runs-on: ubuntu-latest
-    # needs: build
+    needs: build
     services:
       # Label used to access the service container
       postgres:
