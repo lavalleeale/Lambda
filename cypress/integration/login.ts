@@ -23,7 +23,7 @@ describe("Navigation", async () => {
   it("should navigate to the login page", () => {
     cy.visit("http://localhost:3000/");
 
-    cy.get("path").click();
+    cy.contains("Login").click();
 
     cy.url().should("include", "/login");
 
@@ -37,7 +37,7 @@ describe("Navigation", async () => {
   });
   it("shoud login", () => {
     cy.visit("http://localhost:3000/login");
-    cy.get("path").click();
+    cy.contains("Login").click();
     cy.get("#sig").type(signedLoginMessage, { delay: 0 });
     cy.get(".btn").click();
     cy.getCookie("user").should("exist");
