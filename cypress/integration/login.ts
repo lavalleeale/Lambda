@@ -54,8 +54,8 @@ describe("Navigation", async () => {
     cy.get("#title").type("Cool Title");
     cy.get("#body").type("Cool Body");
     cy.get(".btn").click();
-    cy.get(".text-3xl").contains("Cool Title");
-    cy.get(".paper > p").contains("Cool Body");
+    cy.contains("Cool Title").should("exist");
+    cy.contains("Cool Body").should("exist");
     Cypress.Cookies.preserveOnce("user");
   });
   it("should view user", () => {
@@ -63,5 +63,3 @@ describe("Navigation", async () => {
     cy.get("#__next > :nth-child(2)").should("exist");
   });
 });
-
-export {};
