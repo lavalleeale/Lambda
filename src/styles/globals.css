@@ -56,3 +56,8 @@ a {
 .paper {
   @apply p-2 m-1 bg-slate-900;
 }
+
+/* :target {
+  @apply bg-blue-700;
+  @apply p-10;
+} */

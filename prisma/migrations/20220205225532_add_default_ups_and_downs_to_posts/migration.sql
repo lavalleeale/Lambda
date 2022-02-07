@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Post" ALTER COLUMN "ups" SET DEFAULT 0,
-ALTER COLUMN "downs" SET DEFAULT 0;

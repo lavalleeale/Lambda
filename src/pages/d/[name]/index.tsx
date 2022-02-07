@@ -1,8 +1,9 @@
-import { Post, Section } from "@prisma/client";
+import { Section } from "@prisma/client";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import PostComponent from "../../../components/Post";
 import prisma from "../../../lib/prisma";
+import { getId } from "../../../lib/user";
 
 type SectionPageProps = {
   section:
@@ -46,6 +47,7 @@ const SectionPage: NextPage<SectionPageProps> = ({ section }) => {
 export const getServerSideProps: GetServerSideProps<SectionPageProps> = async (
   ctx
 ) => {
+  const id = getId(ctx.req)?.id ?? "";
   const section = await prisma!.section.findUnique({
     where: { name: ctx.params?.name as string },
     include: {
@@ -55,11 +57,16 @@ export const getServerSideProps: GetServerSideProps<SectionPageProps> = async (
           title: true,
           body: true,
           sectionId: true,
+          upsNum: true,
+          downsNum: true,
+          ups: { where: { id: id }, select: { name: true } },
+          downs: { where: { id: id }, select: { name: true } },
           author: { select: { name: true } },
         },
       },
     },
   });
+
   if (!section) {
     ctx.res.statusCode = 404;
   }

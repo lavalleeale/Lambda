@@ -4,4 +4,8 @@ interface PublicPostData {
   body: string | null;
   sectionId: string;
   author: { name: string };
+  upsNum: number;
+  downsNum: number;
+  ups: {}[];
+  downs: {}[];
 }

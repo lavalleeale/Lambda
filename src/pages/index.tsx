@@ -3,6 +3,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import PostComponent from "../components/Post";
 import prisma from "../lib/prisma";
+import { getId } from "../lib/user";
 
 type HomePageProps = {
   posts: (PublicPostData & { author: { name: string } })[];
@@ -41,18 +42,25 @@ const Home: NextPage<HomePageProps> = (props) => {
 };
 
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
-  context
+  ctx
 ) => {
+  const id = getId(ctx.req)?.id ?? "";
   const posts = await prisma!.post.findMany({
     take: 10,
+    orderBy: { score: "desc" },
     select: {
       title: true,
       body: true,
       id: true,
       sectionId: true,
+      upsNum: true,
+      downsNum: true,
+      ups: { where: { id: id }, select: { name: true } },
+      downs: { where: { id: id }, select: { name: true } },
       author: { select: { name: true } },
     },
   });
+
   return {
     props: { posts },
   };

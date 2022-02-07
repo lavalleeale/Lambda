@@ -4,6 +4,7 @@ import Head from "next/head";
 import Link from "next/link";
 import PostComponent from "../../components/Post";
 import prisma from "../../lib/prisma";
+import { getId } from "../../lib/user";
 
 type PostPageProps = {
   post: PublicPostData | null;
@@ -25,6 +26,7 @@ const PostPage: NextPage<PostPageProps> = ({ post }) => {
 export const getServerSideProps: GetServerSideProps<PostPageProps> = async (
   ctx
 ) => {
+  const id = getId(ctx.req)?.id ?? "";
   const post = await prisma!.post.findUnique({
     where: { id: ctx.params?.id as string },
     select: {
@@ -33,6 +35,10 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async (
       title: true,
       body: true,
       sectionId: true,
+      upsNum: true,
+      downsNum: true,
+      ups: { where: { id: id }, select: { name: true } },
+      downs: { where: { id: id }, select: { name: true } },
     },
   });
   if (!post) {
