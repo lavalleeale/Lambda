@@ -4,31 +4,21 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: "Build & Lint NextJS"
+    name: "Build NextJS"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-
-      - name: Cache node modules
-        uses: actions/cache@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Build and push
+        uses: docker/build-push-action@v2
         with:
-          path: |
-            node_modules
-            ~/.cache/Cypress
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-
-
-      - uses: actions/setup-node@master
-        with:
-          node-version: 16.13
-
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-      - name: Lint
-        run: yarn lint
-      - name: Build
-        run: yarn build
+          platforms: linux/amd64
+          push: false
+          tags: lavalleeale/lambda:latest
   test:
     name: "Test with Cypress"
     runs-on: ubuntu-latest
