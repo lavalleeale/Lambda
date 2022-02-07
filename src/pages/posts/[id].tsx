@@ -2,32 +2,21 @@ import { Post } from "@prisma/client";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import PostComponent from "../../components/Post";
 import prisma from "../../lib/prisma";
 
 type PostPageProps = {
-  title: string | undefined;
-  body: string | null | undefined;
-  author: string | undefined;
+  post: PublicPostData | null;
 };
 
-const PostPage: NextPage<PostPageProps> = ({ title, body, author }) => {
+const PostPage: NextPage<PostPageProps> = ({ post }) => {
   return (
     <>
       <Head>
-        <title>λ | {title ?? "Unknown"}</title>
+        <title>λ | {post?.title ?? "Unknown"}</title>
       </Head>
       <div className="paper overflow-auto">
-        {title ? (
-          <>
-            <h3 className="text-3xl">{title}</h3>
-            <p>{body}</p>
-            <Link href={`/u/${author}`}>
-              <a className="text-gray-500 float-right">u/{author}</a>
-            </Link>
-          </>
-        ) : (
-          "Post Not Found"
-        )}
+        {post ? <PostComponent post={post} showFull /> : "Post Not Found"}
       </div>
     </>
   );
@@ -38,8 +27,12 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async (
 ) => {
   const post = await prisma!.post.findUnique({
     where: { id: ctx.params?.id as string },
-    include: {
+    select: {
       author: { select: { name: true } },
+      id: true,
+      title: true,
+      body: true,
+      sectionId: true,
     },
   });
   if (!post) {
@@ -47,7 +40,7 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async (
   }
 
   return {
-    props: { title: post?.title, body: post?.body, author: post?.author.name },
+    props: { post },
   };
 };
 
