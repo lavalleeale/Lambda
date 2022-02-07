@@ -22,7 +22,7 @@ jobs:
         with:
           platforms: linux/amd64
           push: true
-          tags: lavalleeale/lambda:latest
+          tags: ghcr.io/lavalleeale/lambda:latest
   test:
     name: "Test with Cypress"
     runs-on: ubuntu-latest
