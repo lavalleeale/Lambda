@@ -19,7 +19,9 @@ const Header = ({
         </a>
       </Link>
       <div className="float-right">
-        <Link href={{ pathname: path, query: "swapMode=1" }}>
+        <Link
+          href={{ pathname: path, query: `swapMode=${dark ? "day" : "night"}` }}
+        >
           <a className="text-white">{dark ? "Day Mode" : "Night Mode"}</a>
         </Link>
         <p className="inline mx-2">|</p>

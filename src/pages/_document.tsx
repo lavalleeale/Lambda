@@ -24,13 +24,13 @@ class MyDocument extends Document<Props> {
     if (ctx.req?.headers.cookie) {
       const cookie = parse(ctx.req.headers.cookie, {});
       if (ctx.query.swapMode) {
-        if (cookie.light === "yes") {
+        if (ctx.query.swapMode === "night") {
           ctx.res?.setHeader(
             "Set-Cookie",
             serialize("light", "", { path: "/" })
           );
           dark = true;
-        } else {
+        } else if (ctx.query.swapMode === "day") {
           ctx.res?.setHeader(
             "Set-Cookie",
             serialize("light", "yes", { path: "/" })
