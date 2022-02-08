@@ -57,7 +57,11 @@ a {
   @apply p-2 m-1 bg-slate-900;
 }
 
-/* :target {
-  @apply bg-blue-700;
-  @apply p-10;
-} */
+.purple {
+  filter: invert(35%) sepia(99%) saturate(2347%) hue-rotate(248deg)
+    brightness(102%) contrast(94%);
+}
+.orange {
+  filter: invert(69%) sepia(61%) saturate(5996%) hue-rotate(352deg)
+    brightness(101%) contrast(95%);
+}

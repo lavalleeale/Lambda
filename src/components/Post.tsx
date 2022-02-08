@@ -1,6 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 import { Post } from "@prisma/client";
 import Link from "next/link";
+import Image from "next/image";
 import React from "react";
+import updootImage from "../../public/updoot.png";
+import downdootImage from "../../public/downdoot.png";
 
 const Post = ({
   post,
@@ -15,40 +19,36 @@ const Post = ({
     <Link href={`/posts/${post.id}`}>
       <a>
         <div className="paper overflow-auto flex">
-          <div className="bg-slate-800 mr-2 px-2">
+          <div className="bg-slate-800 mr-2 self-stretch p-2 text-center">
             <Link href={`/api/posts/${post.id}/updoot`}>
-              <a
-                className={`block ${
-                  post.ups.length !== 0 ? "text-orange-500" : ""
-                }`}
-              >
-                <i className="bi-arrow-up-square text-xl" />
+              <a className={`block ${post.ups.length !== 0 ? "orange" : ""}`}>
+                <img src="/updoot.png" alt="updoot" className="w-6" />
               </a>
             </Link>
+            <p className="text-gray-500">{post.upsNum - post.downsNum}</p>
             <Link href={`/api/posts/${post.id}/downdoot`}>
-              <a
-                className={`${
-                  post.downs.length !== 0 ? "text-purple-500" : ""
-                }`}
-              >
-                <i className="bi-arrow-down-square text-xl" />
+              <a className={`${post.downs.length !== 0 ? "pruple" : ""}`}>
+                <img src="/downdoot.png" alt="downdoot" className="w-6" />
               </a>
             </Link>
           </div>
-          <div className="w-full">
-            <h3 className="text-2xl">{post.title}</h3>
-            <p className={showFull ? undefined : "truncate"}>{post.body}</p>
-            {!hideFrom && (
-              <Link href={`/d/${post.sectionId}`}>
-                <a className="text-gray-500">Section: d/{post.sectionId}</a>
+          <div className="w-full flex flex-col justify-between">
+            <div className="">
+              <h3 className="text-2xl">{post.title}</h3>
+              <p className={showFull ? undefined : "truncate"}>{post.body}</p>
+            </div>
+            <div className="w-full ">
+              {!hideFrom && (
+                <Link href={`/d/${post.sectionId}`}>
+                  <a className="text-gray-500">Section: d/{post.sectionId}</a>
+                </Link>
+              )}
+              <Link href={`/u/${post.author.name}`}>
+                <a className="text-gray-500 float-right">
+                  u/{post.author.name}
+                </a>
               </Link>
-            )}
-            <p className="text-gray-500 inline ml-1">
-              Score: {post.upsNum - post.downsNum}
-            </p>
-            <Link href={`/u/${post.author.name}`}>
-              <a className="text-gray-500 float-right">u/{post.author.name}</a>
-            </Link>
+            </div>
           </div>
         </div>
       </a>

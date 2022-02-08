@@ -23,7 +23,7 @@ describe("Create Basic Post", () => {
     cy.contains("Cool Title").should("exist");
     cy.contains("Cool Body").should("exist");
     cy.contains("Section: d/ReallyCool").should("exist");
-    cy.contains("Score: 1").should("exist");
+    cy.get(".bg-slate-800 > .text-gray-500").should("contain", "1");
   });
   it("should view user", () => {
     cy.contains("u/Tester").click();
