@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (
   });
 
   if (!user) {
-    ctx.res.statusCode = 404;
+    return { notFound: true };
   }
 
   return {
