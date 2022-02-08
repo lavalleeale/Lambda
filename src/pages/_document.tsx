@@ -18,28 +18,21 @@ interface Props {
 
 class MyDocument extends Document<Props> {
   static async getInitialProps(ctx: DocumentContext) {
-    var dark = false;
+    var dark = true;
     const initialProps = await Document.getInitialProps(ctx);
 
-    if (ctx.req?.headers.cookie) {
+    if (ctx.query.swapMode === "night") {
+      ctx.res?.setHeader("Set-Cookie", serialize("light", "", { path: "/" }));
+      dark = true;
+    } else if (ctx.query.swapMode === "day") {
+      ctx.res?.setHeader(
+        "Set-Cookie",
+        serialize("light", "yes", { path: "/" })
+      );
+      dark = false;
+    } else if (ctx.req?.headers.cookie) {
       const cookie = parse(ctx.req.headers.cookie, {});
-      if (ctx.query.swapMode) {
-        if (ctx.query.swapMode === "night") {
-          ctx.res?.setHeader(
-            "Set-Cookie",
-            serialize("light", "", { path: "/" })
-          );
-          dark = true;
-        } else if (ctx.query.swapMode === "day") {
-          ctx.res?.setHeader(
-            "Set-Cookie",
-            serialize("light", "yes", { path: "/" })
-          );
-          dark = false;
-        }
-      } else {
-        dark = cookie.light !== "yes";
-      }
+      dark = cookie.light !== "yes";
     }
 
     return {
