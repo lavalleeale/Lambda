@@ -21,25 +21,21 @@ const pluginConfig: Cypress.PluginConfig = (on, config) => {
   on("task", {
     "db:teardown": () => {
       const client = new PrismaClient();
-      const models = [client.post, client.section, client.user];
-
-      return Promise.all(
-        models.map((model) =>
-          // @ts-expect-error
-          model.deleteMany({})
-        )
-      );
+      return (async () => {
+        await client.post.deleteMany();
+        await client.section.deleteMany();
+        return await client.user.deleteMany();
+      })();
     },
     "db:seed": () => {
       const client = new PrismaClient();
       const keyText = config.env.key;
-      const func = async () => {
+      return (async () => {
         const key = await readPrivateKey({ armoredKey: keyText });
         return await client.user.create({
           data: { key: key.getKeyID().toHex(), name: "Tester" },
         });
-      };
-      return func();
+      })();
     },
   });
 };
