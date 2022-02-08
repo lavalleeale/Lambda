@@ -24,7 +24,6 @@ describe("Login", async () => {
   });
   before(() => {
     cy.task("db:teardown");
-    cy.task("db:seed");
   });
   it("should navigate to the login page", () => {
     cy.visit("http://localhost:3000/");
