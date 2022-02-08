@@ -32,8 +32,8 @@ describe("Test Sorting", () => {
     cy.get(postSelector(3)).should("contain", "Post 0");
   });
   it("should upvote posts", () => {
-    cy.get(upvoteSelector(2)).click();
-    cy.get(upvoteSelector(3)).click();
+    upvoteSelector(2).click();
+    upvoteSelector(3).click();
   });
   it("should test second order", () => {
     cy.visit("localhost:3000/");
@@ -48,7 +48,7 @@ function postSelector(position: number) {
 }
 
 function upvoteSelector(position: number) {
-  return `:nth-child(${position * 2}) > .bg-slate-800 > .block > .w-6`;
+  return cy.get(`:nth-child(${position * 2}) > .bg-slate-800 > .block > .w-6`);
 }
 
 export {};
