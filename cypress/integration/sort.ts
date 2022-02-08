@@ -22,14 +22,14 @@ describe("Test Sorting", () => {
       cy.get(".btn").click();
       cy.contains(`Post ${index}`).should("exist");
       cy.contains("Section: d/ReallyCool").should("exist");
-      cy.get(".bg-slate-800 > .text-gray-500").should("contain", "1");
+      cy.get(".dark\\:bg-slate-800 > .text-gray-500").should("contain", "1");
     });
   });
   it("should test first order", () => {
     cy.visit("localhost:3000/");
-    cy.get(postSelector(1)).should("contain", "Post 2");
-    cy.get(postSelector(2)).should("contain", "Post 1");
-    cy.get(postSelector(3)).should("contain", "Post 0");
+    postSelector(1).should("contain", "Post 2");
+    postSelector(2).should("contain", "Post 1");
+    postSelector(3).should("contain", "Post 0");
   });
   it("should upvote posts", () => {
     upvoteSelector(2).click();
@@ -37,18 +37,20 @@ describe("Test Sorting", () => {
   });
   it("should test second order", () => {
     cy.visit("localhost:3000/");
-    cy.get(postSelector(1)).should("contain", "Post 1");
-    cy.get(postSelector(2)).should("contain", "Post 0");
-    cy.get(postSelector(3)).should("contain", "Post 2");
+    postSelector(1).should("contain", "Post 1");
+    postSelector(2).should("contain", "Post 0");
+    postSelector(3).should("contain", "Post 2");
   });
 });
 
 function postSelector(position: number) {
-  return `:nth-child(${position * 2}) > .flex > :nth-child(1) > .text-2xl`;
+  return cy.get(".paper > .flex > :nth-child(1) > .text-2xl").eq(position - 1);
 }
 
 function upvoteSelector(position: number) {
-  return cy.get(`:nth-child(${position * 2}) > .bg-slate-800 > .block > .w-6`);
+  return cy
+    .get(".paper > .dark\\:bg-slate-800 > .block > .w-6")
+    .eq(position - 1);
 }
 
 export {};
