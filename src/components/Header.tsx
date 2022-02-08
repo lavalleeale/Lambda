@@ -7,7 +7,7 @@ const Header = ({ user }: { user: userCookie | null }) => {
     <div className="mb-1 w-full bg-purple-800 p-3 overflow-auto">
       <Link href="/">
         <a>
-          <h1 className="inline text-2xl">λ</h1>
+          <h1 className="inline text-2xl text-white">λ</h1>
         </a>
       </Link>
       <Link href={user ? `/u/${user.name}` : "/login"}>
