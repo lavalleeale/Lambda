@@ -8,24 +8,46 @@ import Document, {
 import Header from "../components/Header";
 import React from "react";
 import { getId, userCookie } from "../lib/user";
-import { parse } from "cookie";
+import { parse, serialize } from "cookie";
 
 interface Props {
   user: userCookie | null;
   dark: boolean;
+  path: string;
 }
 
 class MyDocument extends Document<Props> {
   static async getInitialProps(ctx: DocumentContext) {
-    var dark = true;
+    var dark = false;
     const initialProps = await Document.getInitialProps(ctx);
 
-    if (ctx.req && ctx.req.headers.cookie) {
+    if (ctx.req?.headers.cookie) {
       const cookie = parse(ctx.req.headers.cookie, {});
-      dark = !cookie.light;
+      if (ctx.query.swapMode) {
+        if (cookie.light === "yes") {
+          ctx.res?.setHeader(
+            "Set-Cookie",
+            serialize("light", "", { path: "/" })
+          );
+          dark = true;
+        } else {
+          ctx.res?.setHeader(
+            "Set-Cookie",
+            serialize("light", "yes", { path: "/" })
+          );
+          dark = false;
+        }
+      } else {
+        dark = cookie.light !== "yes";
+      }
     }
 
-    return { ...initialProps, user: getId(ctx.req), dark };
+    return {
+      ...initialProps,
+      user: getId(ctx.req),
+      dark,
+      path: ctx.asPath?.split("?")[0],
+    };
   }
 
   render() {
@@ -33,7 +55,11 @@ class MyDocument extends Document<Props> {
       <Html className={this.props.dark ? "dark" : ""}>
         <Head />
         <body className="dark:bg-gray-800">
-          <Header user={this.props.user} />
+          <Header
+            user={this.props.user}
+            dark={this.props.dark}
+            path={this.props.path}
+          />
           <Main />
           <NextScript />
         </body>
