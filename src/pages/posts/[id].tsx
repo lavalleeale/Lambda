@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async (
     },
   });
   if (!post) {
-    ctx.res.statusCode = 404;
+    return { notFound: true };
   }
 
   return {

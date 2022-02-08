@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps<
   NewPostParams
 > = async (ctx) => {
   if (!ctx.params?.name) {
-    ctx.res.statusCode = 404;
+    return { notFound: true };
   }
   return {
     props: { user: getId(ctx.req), name: ctx.params?.name },

@@ -68,7 +68,7 @@ export const getServerSideProps: GetServerSideProps<SectionPageProps> = async (
   });
 
   if (!section) {
-    ctx.res.statusCode = 404;
+    return { notFound: true };
   }
   return {
     props: { section },
