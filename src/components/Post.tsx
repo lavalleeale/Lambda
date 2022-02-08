@@ -16,7 +16,7 @@ const Post = ({
     <Link href={`/posts/${post.id}`}>
       <a>
         <div className="paper overflow-auto flex">
-          <div className="bg-slate-800 mr-2 self-stretch p-2 text-center">
+          <div className="dark:bg-slate-800 bg-slate-400/80 rounded-md mr-2 self-stretch p-2 text-center">
             <Link href={`/api/posts/${post.id}/updoot`}>
               <a className={`block ${post.ups.length !== 0 ? "orange" : ""}`}>
                 <img src="/updoot.png" alt="updoot" className="w-6" />
