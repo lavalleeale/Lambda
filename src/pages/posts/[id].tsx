@@ -1,7 +1,5 @@
-import { Post } from "@prisma/client";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import PostComponent from "../../components/Post";
 import prisma from "../../lib/prisma";
 import { getId } from "../../lib/user";

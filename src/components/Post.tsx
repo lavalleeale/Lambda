@@ -1,10 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Post } from "@prisma/client";
 import Link from "next/link";
-import Image from "next/image";
 import React from "react";
-import updootImage from "../../public/updoot.png";
-import downdootImage from "../../public/downdoot.png";
 
 const Post = ({
   post,
