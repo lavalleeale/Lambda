@@ -1,24 +1,30 @@
 /// <reference types="cypress" />
 import { generateKey, createCleartextMessage, sign } from "openpgp";
 
-describe("Navigation", async () => {
-  const key = await generateKey({
-    userIDs: [{ name: "Testing User", email: "TestingUser@test.com" }],
-    format: "object",
-  });
+describe("Login", async () => {
+  const key = (
+    await generateKey({
+      userIDs: [{ name: "Testing User", email: "TestingUser@test.com" }],
+      format: "object",
+    })
+  ).privateKey;
   const signupMessage = await createCleartextMessage({
-    text: "I am Tester and I wish to sign up",
+    text: "I am AuthTester and I wish to sign up",
   });
   const signedSignupMessage = await sign({
-    message: signupMessage, // CleartextMessage or Message object
-    signingKeys: key.privateKey,
+    message: signupMessage,
+    signingKeys: key,
   });
   const loginMessage = await createCleartextMessage({
-    text: "I am Tester and I wish to login",
+    text: "I am AuthTester and I wish to login",
   });
   const signedLoginMessage = await sign({
-    message: loginMessage, // CleartextMessage or Message object
-    signingKeys: key.privateKey,
+    message: loginMessage,
+    signingKeys: key,
+  });
+  before(() => {
+    cy.task("db:teardown");
+    cy.task("db:seed");
   });
   it("should navigate to the login page", () => {
     cy.visit("http://localhost:3000/");
@@ -41,25 +47,5 @@ describe("Navigation", async () => {
     cy.get("#sig").type(signedLoginMessage, { delay: 0 });
     cy.get(".btn").click();
     cy.getCookie("user").should("exist");
-    Cypress.Cookies.preserveOnce("user");
-  });
-  it("should create section", () => {
-    cy.get(".btn-pill").click();
-    cy.get("#name").type("ReallyCool");
-    cy.get(".btn").click();
-    Cypress.Cookies.preserveOnce("user");
-  });
-  it("should create post", () => {
-    cy.contains("Create Post").click();
-    cy.get("#title").type("Cool Title");
-    cy.get("#body").type("Cool Body");
-    cy.get(".btn").click();
-    cy.contains("Cool Title").should("exist");
-    cy.contains("Cool Body").should("exist");
-    Cypress.Cookies.preserveOnce("user");
-  });
-  it("should view user", () => {
-    cy.contains("u/Tester").click();
-    cy.get("#__next > :nth-child(2)").should("exist");
   });
 });
