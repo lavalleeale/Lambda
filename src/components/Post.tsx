@@ -3,6 +3,8 @@ import { Post } from "@prisma/client";
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
+import updootImage from "../../public/updoot.png";
+import downdootImage from "../../public/downdoot.png";
 
 const Post = ({
   post,
@@ -19,27 +21,14 @@ const Post = ({
         <div className="paper overflow-auto flex">
           <div className="bg-slate-800 mr-2 self-stretch p-2 text-center">
             <Link href={`/api/posts/${post.id}/updoot`}>
-              <a
-                className={`block w-5 h-5 ${
-                  post.ups.length !== 0 ? "orange" : ""
-                }`}
-              >
-                <Image src="/updoot.png" alt="updoot" width={20} height={20} />
+              <a className={`block ${post.ups.length !== 0 ? "orange" : ""}`}>
+                <img src="/updoot.png" alt="updoot" className="w-6" />
               </a>
             </Link>
             <p className="text-gray-500">{post.upsNum - post.downsNum}</p>
             <Link href={`/api/posts/${post.id}/downdoot`}>
-              <a
-                className={`block w-5 h-5 ${
-                  post.downs.length !== 0 ? "purple" : ""
-                }`}
-              >
-                <Image
-                  src="/downdoot.png"
-                  alt="downdoot"
-                  width={20}
-                  height={20}
-                />
+              <a className={`${post.downs.length !== 0 ? "pruple" : ""}`}>
+                <img src="/downdoot.png" alt="downdoot" className="w-6" />
               </a>
             </Link>
           </div>
