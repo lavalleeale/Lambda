@@ -16,10 +16,9 @@ const Login: NextPage = () => {
               <a className="">?</a>
             </Link>
             <textarea
-              className="block h-24 w-full m-1 bg-slate-800"
+              className="block h-24 dark:disabled:bg-slate-800 dark:bg-slate-500 disabled:bg-slate-400 w-full p-1 mb-1 rounded-md"
               id="sig"
               name="sig"
-              placeholder="-----BEGIN PGP SIGNED MESSAGE-----..."
             />
           </label>
           <button className="btn btn-blue float-right" type="submit">
@@ -29,6 +28,10 @@ const Login: NextPage = () => {
       </div>
     </>
   );
+};
+
+export const getServerSideProps = () => {
+  return { props: {} };
 };
 
 export const config = {

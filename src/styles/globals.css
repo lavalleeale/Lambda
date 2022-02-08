@@ -27,7 +27,7 @@ h5,
 h6,
 label,
 code {
-  @apply text-white;
+  @apply dark:text-white;
 }
 
 a {
@@ -54,7 +54,7 @@ a {
 }
 
 .paper {
-  @apply p-2 m-1 bg-slate-900;
+  @apply p-2 m-1 rounded-md dark:bg-slate-900 bg-slate-300;
 }
 
 .purple {

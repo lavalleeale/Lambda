@@ -26,7 +26,7 @@ const NewPost: NextPage<NewPostProps> = ({ user, name }) => {
               disabled={user === null}
               id="title"
               name="title"
-              className="bg-slate-800 w-full p-1 disabled:bg-slate-500"
+              className="dark:disabled:bg-slate-800 dark:bg-slate-500 disabled:bg-slate-400 w-full p-1 rounded-md"
             />
           </label>
           <label>
@@ -35,7 +35,7 @@ const NewPost: NextPage<NewPostProps> = ({ user, name }) => {
               disabled={user === null}
               id="body"
               name="body"
-              className="bg-slate-800 w-full disabled:bg-slate-500"
+              className="dark:disabled:bg-slate-800 dark:bg-slate-500 disabled:bg-slate-400 w-full rounded-md"
             />
           </label>
           <button className="btn btn-blue float-right" type="submit">

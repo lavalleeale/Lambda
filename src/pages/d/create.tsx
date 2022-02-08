@@ -18,7 +18,7 @@ const NewSection: NextPage<NewSectionProps> = ({ user, error }) => {
               disabled={user === null}
               id="name"
               name="name"
-              className="bg-slate-800 w-full p-1 disabled:bg-slate-500"
+              className="dark:disabled:bg-slate-800 dark:bg-slate-500 disabled:bg-slate-400 w-full p-1 mb-1 rounded-md"
             />
           </label>
           {error && (
