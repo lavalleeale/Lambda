@@ -52,6 +52,7 @@ export const getServerSideProps: GetServerSideProps<SectionPageProps> = async (
     where: { name: ctx.params?.name as string },
     include: {
       posts: {
+        orderBy: { score: "desc" },
         select: {
           id: true,
           title: true,
