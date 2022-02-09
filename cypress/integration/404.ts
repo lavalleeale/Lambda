@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe("Create Basic Post", () => {
+describe("Test Error Pages", () => {
   before(() => {
     cy.task("db:teardown");
     cy.task("db:seed");

@@ -43,7 +43,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Setup Database
-        run: yarn run prisma migrate deploy
+        run: yarn run prisma migrate deploy  && yarn run prisma generate
 
       - name: Cypress run
         uses: cypress-io/github-action@v2

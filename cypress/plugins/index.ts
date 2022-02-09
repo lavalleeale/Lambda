@@ -22,6 +22,7 @@ const pluginConfig: Cypress.PluginConfig = (on, config) => {
     "db:teardown": () => {
       const client = new PrismaClient();
       return (async () => {
+        await client.comment.deleteMany();
         await client.post.deleteMany();
         await client.section.deleteMany();
         return await client.user.deleteMany();

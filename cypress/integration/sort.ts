@@ -44,7 +44,7 @@ describe("Test Sorting", () => {
 });
 
 function postSelector(position: number) {
-  return cy.get(".paper > .flex > :nth-child(1) > .text-2xl").eq(position - 1);
+  return cy.get(".grow > > .text-2xl").eq(position - 1);
 }
 
 function upvoteSelector(position: number) {
