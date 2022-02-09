@@ -50,7 +50,7 @@ export default async function handler(
         })
       );
 
-      return res.status(200).redirect("/");
+      return res.status(200).redirect(req.headers.referer ?? "/");
     }
   }
 

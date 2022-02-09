@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 import { generateKey, createCleartextMessage, sign } from "openpgp";
 
-describe("Login", async () => {
+describe("Test Authentication", async () => {
   const key = (
     await generateKey({
       userIDs: [{ name: "Testing User", email: "TestingUser@test.com" }],
