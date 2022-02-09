@@ -2,20 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "colors";
+@import "modal";
+
 html,
 body {
-  padding: 0;
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 p,
@@ -32,6 +25,10 @@ code {
 
 a {
   @apply text-blue-600 hover:text-blue-800;
+}
+
+.paper {
+  @apply p-2 m-1 rounded-md dark:bg-slate-900 bg-white border border-gray-300 dark:border-gray-700;
 }
 
 .btn {
@@ -51,17 +48,4 @@ a {
 }
 .btn-blue:hover {
   @apply bg-blue-700;
-}
-
-.paper {
-  @apply p-2 m-1 rounded-md dark:bg-slate-900 bg-slate-300;
-}
-
-.purple {
-  filter: invert(35%) sepia(99%) saturate(2347%) hue-rotate(248deg)
-    brightness(102%) contrast(94%);
-}
-.orange {
-  filter: invert(69%) sepia(61%) saturate(5996%) hue-rotate(352deg)
-    brightness(101%) contrast(95%);
 }

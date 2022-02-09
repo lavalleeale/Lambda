@@ -47,7 +47,7 @@ class MyDocument extends Document<Props> {
     return (
       <Html className={this.props.dark ? "dark" : ""}>
         <Head />
-        <body className="dark:bg-gray-800">
+        <body className="dark:bg-gray-800 bg-gray-50">
           <Header
             user={this.props.user}
             dark={this.props.dark}

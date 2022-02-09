@@ -1,6 +1,8 @@
 import Link from "next/link";
 import React from "react";
 import { userCookie } from "../lib/user";
+import Login from "./Login";
+import Modal from "./Modal";
 
 const Header = ({
   user,
@@ -25,15 +27,17 @@ const Header = ({
           <a className="text-white">{dark ? "Day Mode" : "Night Mode"}</a>
         </Link>
         <p className="inline mx-2">|</p>
-        <Link href={user ? `/u/${user.name}` : "/login"}>
-          <a className="text-white">
-            {user?.name ? (
+        {user?.name ? (
+          <Link href={`/u/${user.name}`}>
+            <a className="text-white">
               <p className="inline">{user.name}</p>
-            ) : (
-              <p className="inline">Login</p>
-            )}
-          </a>
-        </Link>
+            </a>
+          </Link>
+        ) : (
+          <Modal text="Login">
+            <Login />
+          </Modal>
+        )}
       </div>
     </div>
   );
