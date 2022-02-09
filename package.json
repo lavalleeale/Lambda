@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "cypress": "cypress open"
+    "cypress": "cypress open",
+    "test": "cypress run"
   },
   "dependencies": {
     "@prisma/client": "^3.9.1",

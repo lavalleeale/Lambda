@@ -8,14 +8,20 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  name          String    @unique
-  key           String    @unique
-  posts         Post[]    @relation("author")
+  id   String @id @default(uuid())
+  name String @unique
+  key  String @unique
+
   sections      Section[] @relation("moderator")
   subscriptions Section[] @relation("subscriptions")
-  downs         Post[]    @relation("downs")
-  ups           Post[]    @relation("ups")
+
+  posts Post[] @relation("posts")
+  ups   Post[] @relation("postsUps")
+  downs Post[] @relation("postsDowns")
+
+  comments     Comment[] @relation("comments")
+  commentUps   Comment[] @relation("commentsUps")
+  commentDowns Comment[] @relation("commentsDowns")
 }
 
 model Section {
@@ -29,14 +35,36 @@ model Post {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   score     Decimal  @default(dbgenerated()) @db.Decimal(65, 7)
-  ups       User[]   @relation("ups")
-  downs     User[]   @relation("downs")
+  ups       User[]   @relation("postsUps")
+  downs     User[]   @relation("postsDowns")
   upsNum    Int      @default(1)
   downsNum  Int      @default(0)
   title     String
   body      String?
-  author    User     @relation("author", fields: [authorId], references: [id])
+  author    User     @relation("posts", fields: [authorId], references: [id])
   authorId  String
   section   Section  @relation(fields: [sectionId], references: [name])
   sectionId String
+
+  comments Comment[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  score     Decimal  @default(dbgenerated()) @db.Decimal(65, 7)
+  ups       User[]   @relation("commentsUps")
+  downs     User[]   @relation("commentsDowns")
+  upsNum    Int      @default(1)
+  downsNum  Int      @default(0)
+  body      String
+  author    User     @relation("comments", fields: [authorId], references: [id])
+  authorId  String
+
+  post   Post?   @relation(fields: [postId], references: [id])
+  postId String?
+
+  children Comment[] @relation("children")
+  parent   Comment?  @relation("children", fields: [parentId], references: [id])
+  parentId String?
 }
