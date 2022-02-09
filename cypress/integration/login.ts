@@ -30,8 +30,6 @@ describe("Login", async () => {
 
     cy.contains("Login").click();
 
-    cy.url().should("include", "/login");
-
     cy.get(".btn").contains("Login");
   });
   it("should sign up", () => {
@@ -40,9 +38,15 @@ describe("Login", async () => {
     cy.get(".btn").click();
     cy.getCookie("user").should("exist");
   });
-  it("shoud login", () => {
-    cy.visit("http://localhost:3000/login");
+  it("should navigate to the login page", () => {
+    cy.visit("http://localhost:3000/");
+
     cy.contains("Login").click();
+
+    cy.get(".btn").contains("Login");
+  });
+  it("shoud login", () => {
+    cy.getCookie("user").should("not.exist");
     cy.get("#sig").type(signedLoginMessage, { delay: 0 });
     cy.get(".btn").click();
     cy.getCookie("user").should("exist");

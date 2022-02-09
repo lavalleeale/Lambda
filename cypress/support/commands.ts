@@ -39,7 +39,7 @@ Cypress.Commands.add("login", () => {
       message: loginMessage, // CleartextMessage or Message object
       signingKeys: key,
     });
-    cy.visit("http://localhost:3000/login");
+    cy.visit("http://localhost:3000");
     cy.contains("Login").click();
     cy.get("#sig").type(signedLoginMessage, { delay: 0 });
     cy.get(".btn").click();
