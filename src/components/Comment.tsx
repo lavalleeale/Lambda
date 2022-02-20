@@ -50,7 +50,7 @@ const Comment = ({
         <div className="w-full flex flex-col justify-between">
           <p>{comment.body}</p>
           <div className="rounded-md text-center flex w-16 justify-between">
-            <Link href={`/api/posts/${comment.id}/updoot`}>
+            <Link href={`/api/comments/${comment.id}/updoot`}>
               <a
                 className={`block ${
                   comment.ups.length !== 0
@@ -62,11 +62,11 @@ const Comment = ({
               </a>
             </Link>
             <p className="text-gray-500">{comment.upsNum - comment.downsNum}</p>
-            <Link href={`/api/posts/${comment.id}/downdoot`}>
+            <Link href={`/api/comments/${comment.id}/downdoot`}>
               <a
                 className={`${
                   comment.downs.length !== 0
-                    ? "pruple"
+                    ? "purple"
                     : "dark:filter dark:invert"
                 }`}
               >
