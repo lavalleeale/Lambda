@@ -20,13 +20,21 @@ const Post = ({
     <div className="paper overflow-auto flex">
       <div className="dark:bg-slate-800 bg-slate-400/80 rounded-md mr-2 self-stretch p-2 text-center">
         <Link href={`/api/posts/${post.id}/updoot`}>
-          <a className={`block ${post.ups.length !== 0 ? "orange" : ""}`}>
+          <a
+            className={`block ${
+              post.ups.length !== 0 ? "orange" : "dark:filter dark:invert"
+            }`}
+          >
             <img src="/updoot.png" alt="updoot" className="w-6" />
           </a>
         </Link>
         <p className="text-gray-500">{post.upsNum - post.downsNum}</p>
         <Link href={`/api/posts/${post.id}/downdoot`}>
-          <a className={`${post.downs.length !== 0 ? "pruple" : ""}`}>
+          <a
+            className={`block ${
+              post.downs.length !== 0 ? "purple" : "dark:filter dark:invert"
+            }`}
+          >
             <img src="/downdoot.png" alt="downdoot" className="w-6" />
           </a>
         </Link>
