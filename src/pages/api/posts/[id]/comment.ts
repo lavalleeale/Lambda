@@ -11,6 +11,7 @@ export default async function handler(
     if (userId) {
       const comment = await prisma!.comment.create({
         data: {
+          depth: 1,
           body: req.body.body,
           postId: req.body.postId,
           authorId: userId.id,

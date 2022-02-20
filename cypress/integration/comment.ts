@@ -25,16 +25,23 @@ describe("Test Commenting", () => {
   });
   it("should add comment", () => {
     cy.get(".w-3\\/4 > :nth-child(1) > .paper").click();
-    cy.get(".flex > :nth-child(1) > div.float-right").click();
-    cy.get("#body").type("Cool Parent Comment");
-    cy.get(".btn").click();
-    cy.get(":nth-child(2) > div.float-right").click();
-    cy.get(
-      ":nth-child(2) > div.float-right > .modal > .paper > label > #body"
-    ).type("Cool Child Comment");
-    cy.get(":nth-child(2) > div.float-right > .modal > .paper > .btn").click();
-    cy.get(".pl-10").should("contain", "Cool Child Comment");
+    cy.wrap(Array.from({ length: 5 })).each((_, index) => {
+      getAddComment(index).click({ force: true });
+      getCommentField(index).type(`Depth: ${index}`);
+      getCommentSubmitButton(index).click();
+    });
+    cy.get(".pl-10 > .pl-10 > .pl-10 > .pl-10").should("contain", "Depth: 4");
   });
 });
+
+function getAddComment(number: number) {
+  return cy.get('[type="checkbox"]').eq(number);
+}
+function getCommentField(number: number) {
+  return cy.get('input[name="body"]').eq(number);
+}
+function getCommentSubmitButton(number: number) {
+  return cy.get(".btn").eq(number);
+}
 
 export {};

@@ -6,6 +6,7 @@ import CommentForm from "./CommentForm";
 import Modal from "./Modal";
 
 export type commentType = {
+  depth: number;
   id: string;
   body: string;
   postId: string;
@@ -29,16 +30,18 @@ const Comment = ({
   return (
     <>
       <div className="paper overflow-auto">
-        <div className="float-right">
-          <Modal text="Add Comment">
-            <CommentForm
-              commentId={comment.id}
-              user={user}
-              type="comment"
-              postId={comment.postId}
-            />
-          </Modal>
-        </div>
+        {comment.depth < 5 && (
+          <div className="float-right">
+            <Modal text="Add Comment">
+              <CommentForm
+                commentId={comment.id}
+                user={user}
+                type="comment"
+                postId={comment.postId}
+              />
+            </Modal>
+          </div>
+        )}
         <div className="w-full ">
           <Link href={`/u/${comment.author.name}`}>
             <a className="text-gray-500">u/{comment.author.name}</a>
@@ -76,7 +79,7 @@ const Comment = ({
       {comment.children && (
         <div className="pl-10">
           {comment.children.map((child) => (
-            <Comment key={child.id} comment={child} />
+            <Comment key={child.id} comment={child} user={user} />
           ))}
         </div>
       )}

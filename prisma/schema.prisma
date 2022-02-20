@@ -60,6 +60,7 @@ model Comment {
   body      String
   author    User     @relation("comments", fields: [authorId], references: [id])
   authorId  String
+  depth     Int
 
   post   Post   @relation(fields: [postId], references: [id])
   postId String

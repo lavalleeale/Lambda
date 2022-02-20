@@ -31,6 +31,7 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async (
 ) => {
   const id = getId(ctx.req)?.id ?? "";
   const commentSelect = {
+    depth: true,
     postId: true,
     id: true,
     body: true,
@@ -56,7 +57,22 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async (
         where: { parentId: null },
         select: {
           ...commentSelect,
-          children: { select: { ...commentSelect } },
+          children: {
+            select: {
+              ...commentSelect,
+              children: {
+                select: {
+                  ...commentSelect,
+                  children: {
+                    select: {
+                      ...commentSelect,
+                      children: { select: commentSelect },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       },
     },
