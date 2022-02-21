@@ -24,7 +24,7 @@ describe("Test Commenting", () => {
     cy.get(".dark\\:bg-slate-800 > .text-gray-500").should("contain", "1");
   });
   it("should add comment", () => {
-    cy.get(".w-3\\/4 > :nth-child(1) > .paper").click();
+    cy.get('[href^="/posts"]').click();
     cy.wrap(Array.from({ length: 5 })).each((_, index) => {
       getAddComment(index).click({ force: true });
       getCommentField(index).type(`Depth: ${index}`);
