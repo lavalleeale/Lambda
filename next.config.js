@@ -5,4 +5,16 @@ module.exports = {
   experimental: {
     outputStandalone: true,
   },
+  async rewrites() {
+    return [
+      {
+        source: "/home/:page",
+        destination: "/",
+      },
+      {
+        source: "/home",
+        destination: "/",
+      },
+    ];
+  },
 };

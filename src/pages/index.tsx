@@ -1,11 +1,13 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import PostComponent from "../components/Post";
 import prisma from "../lib/prisma";
 import { getId } from "../lib/user";
 
 type HomePageProps = {
   posts: (PublicPostData & { author: { name: string } })[];
+  page: number;
 };
 
 const Home: NextPage<HomePageProps> = (props) => {
@@ -21,6 +23,23 @@ const Home: NextPage<HomePageProps> = (props) => {
               {props.posts.map((post) => (
                 <PostComponent key={post.id} post={post} />
               ))}
+              <div className="paper justify-between flex items-center">
+                {props.page > 0 ? (
+                  <Link href={`/home?page=${props.page - 1}`}>
+                    <a className="btn btn-blue">{"<"}</a>
+                  </Link>
+                ) : (
+                  <div></div>
+                )}
+                <p className="inline">Page {props.page + 1}</p>
+                {props.posts.length === 10 ? (
+                  <Link href={`/home?page=${props.page + 1}`}>
+                    <a className="btn btn-blue">{">"}</a>
+                  </Link>
+                ) : (
+                  <div></div>
+                )}
+              </div>
             </div>
           ) : (
             <div className="paper">
@@ -44,8 +63,10 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
   ctx
 ) => {
   const id = getId(ctx.req)?.id ?? "";
+  const page = ctx.query.page ? parseInt(ctx.query.page as string, 10) : 0;
   const posts = await prisma!.post.findMany({
     take: 10,
+    skip: page * 10,
     orderBy: { score: "desc" },
     select: {
       title: true,
@@ -59,9 +80,8 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
       author: { select: { name: true } },
     },
   });
-
   return {
-    props: { posts },
+    props: { posts, page },
   };
 };
 

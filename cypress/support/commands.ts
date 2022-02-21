@@ -42,7 +42,7 @@ Cypress.Commands.add("login", () => {
     cy.visit("http://localhost:3000");
     cy.contains("Login").click();
     cy.get("#sig").type(signedLoginMessage, { delay: 0 });
-    cy.get(".btn").click();
+    cy.contains("Login / Sign up").click();
     cy.getCookie("user").should("exist");
   });
 });
