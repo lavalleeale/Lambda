@@ -39,6 +39,7 @@ model Post {
   downs     User[]   @relation("postsDowns")
   upsNum    Int      @default(1)
   downsNum  Int      @default(0)
+  rawScore  Int      @default(dbgenerated())
   title     String
   body      String?
   author    User     @relation("posts", fields: [authorId], references: [id])
@@ -57,6 +58,7 @@ model Comment {
   downs     User[]   @relation("commentsDowns")
   upsNum    Int      @default(1)
   downsNum  Int      @default(0)
+  rawScore  Int      @default(dbgenerated())
   body      String
   author    User     @relation("comments", fields: [authorId], references: [id])
   authorId  String

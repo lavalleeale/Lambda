@@ -2,12 +2,14 @@ import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import PostComponent from "../components/Post";
+import SortSelector from "../components/SortSelector";
 import prisma from "../lib/prisma";
 import { getId } from "../lib/user";
 
 type HomePageProps = {
   posts: (PublicPostData & { author: { name: string } })[];
   page: number;
+  sort: string;
 };
 
 const Home: NextPage<HomePageProps> = (props) => {
@@ -18,6 +20,7 @@ const Home: NextPage<HomePageProps> = (props) => {
       </Head>
       <div className="flex">
         <div className="w-3/4 inline-block">
+          <SortSelector sort={props.sort} page={props.page} path="/home" />
           {props.posts.length !== 0 ? (
             <div>
               {props.posts.map((post) => (
@@ -25,7 +28,12 @@ const Home: NextPage<HomePageProps> = (props) => {
               ))}
               <div className="paper justify-between flex items-center">
                 {props.page > 0 ? (
-                  <Link href={`/home?page=${props.page - 1}`}>
+                  <Link
+                    href={{
+                      pathname: "/home",
+                      query: { page: props.page - 1 },
+                    }}
+                  >
                     <a className="btn btn-blue">{"<"}</a>
                   </Link>
                 ) : (
@@ -33,7 +41,12 @@ const Home: NextPage<HomePageProps> = (props) => {
                 )}
                 <p className="inline">Page {props.page + 1}</p>
                 {props.posts.length === 10 ? (
-                  <Link href={`/home?page=${props.page + 1}`}>
+                  <Link
+                    href={{
+                      pathname: "/home",
+                      query: { page: props.page + 1 },
+                    }}
+                  >
                     <a className="btn btn-blue">{">"}</a>
                   </Link>
                 ) : (
@@ -48,11 +61,11 @@ const Home: NextPage<HomePageProps> = (props) => {
           )}
         </div>
         <div className="paper w-1/4 inline-block">
-          <form action="/d/create" method="POST">
-            <button className="btn-pill btn-white w-full">
+          <Link href="/d/create">
+            <a className="btn-pill btn-white w-full block text-center">
               Create Section
-            </button>
-          </form>
+            </a>
+          </Link>
         </div>
       </div>
     </>
@@ -64,10 +77,18 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
 ) => {
   const id = getId(ctx.req)?.id ?? "";
   const page = ctx.query.page ? parseInt(ctx.query.page as string, 10) : 0;
+  const sort: { [key: string]: "desc" | "asc" } =
+    ctx.query.sort === "new"
+      ? { createdAt: "desc" }
+      : ctx.query.sort === "old"
+      ? { createdAt: "asc" }
+      : ctx.query.sort === "top"
+      ? { upsNum: "desc" }
+      : { score: "desc" };
   const posts = await prisma!.post.findMany({
     take: 10,
     skip: page * 10,
-    orderBy: { score: "desc" },
+    orderBy: sort,
     select: {
       title: true,
       body: true,
@@ -81,7 +102,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
     },
   });
   return {
-    props: { posts, page },
+    props: { posts, page, sort: (ctx.query.sort as string) ?? "best" },
   };
 };
 

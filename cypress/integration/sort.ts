@@ -26,22 +26,34 @@ describe("Test Sorting", () => {
     });
   });
   it("should test first order", () => {
-    cy.visit("localhost:3000/");
-    postSelector(1).should("contain", "Post 2");
-    postSelector(2).should("contain", "Post 1");
-    postSelector(3).should("contain", "Post 0");
+    checkOrder(2, 1, 0);
   });
   it("should upvote posts", () => {
     upvoteSelector(2).click();
     upvoteSelector(3).click();
   });
   it("should test second order", () => {
-    // cy.visit("localhost:3000/");
-    // postSelector(1).should("contain", "Post 1");
-    // postSelector(2).should("contain", "Post 0");
-    // postSelector(3).should("contain", "Post 2");
+    checkOrder(1, 0, 2);
+  });
+  it("should test selecting order", () => {
+    cy.contains("Old").click();
+    checkOrder(0, 1, 2);
+    cy.contains("New").click();
+    checkOrder(2, 1, 0);
+    cy.contains("Top").click();
+    checkPost(3, 2);
   });
 });
+
+function checkOrder(first: number, second: number, third: number) {
+  checkPost(1, first);
+  checkPost(2, second);
+  checkPost(3, third);
+}
+
+function checkPost(pos: number, value: number) {
+  postSelector(pos).should("contain", `Post ${value}`);
+}
 
 function postSelector(position: number) {
   return cy.get(".grow > > .text-2xl").eq(position - 1);
