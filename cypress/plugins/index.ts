@@ -12,6 +12,7 @@ import { readPrivateKey } from "openpgp";
 // You can read more here:
 // https://on.cypress.io/plugins-guide
 // ***********************************************************
+import prisma from "../../src/lib/prisma";
 
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
@@ -20,20 +21,18 @@ import { readPrivateKey } from "openpgp";
 const pluginConfig: Cypress.PluginConfig = (on, config) => {
   on("task", {
     "db:teardown": () => {
-      const client = new PrismaClient();
       return (async () => {
-        await client.comment.deleteMany();
-        await client.post.deleteMany();
-        await client.section.deleteMany();
-        return await client.user.deleteMany();
+        await prisma!.comment.deleteMany();
+        await prisma!.post.deleteMany();
+        await prisma!.section.deleteMany();
+        return await prisma!.user.deleteMany();
       })();
     },
     "db:seed": () => {
-      const client = new PrismaClient();
       const keyText = config.env.key;
       return (async () => {
         const key = await readPrivateKey({ armoredKey: keyText });
-        return await client.user.create({
+        return await prisma!.user.create({
           data: { key: key.getKeyID().toHex(), name: "Tester" },
         });
       })();
