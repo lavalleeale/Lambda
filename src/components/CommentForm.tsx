@@ -26,12 +26,7 @@ const CommentForm = ({
       ></input>
       <label>
         Comment
-        <input
-          disabled={!user}
-          id="body"
-          name="body"
-          className="dark:disabled:bg-slate-800 dark:bg-slate-500 disabled:bg-slate-400 w-full p-1 mb-1 rounded-md"
-        />
+        <input disabled={!user} id="body" name="body" className="textfield" />
       </label>
       <button className="btn btn-blue float-right" type="submit">
         {user ? "Submit" : "Sign In To Submit"}

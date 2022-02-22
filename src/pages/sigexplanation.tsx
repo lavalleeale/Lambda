@@ -24,6 +24,10 @@ const SigExplanation: NextPage = () => {
   );
 };
 
+export const getServerSideProps = () => {
+  return { props: {} };
+};
+
 export const config = {
   unstable_runtimeJS: false,
 };

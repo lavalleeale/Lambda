@@ -38,7 +38,7 @@ a {
   @apply font-bold py-2 px-4 rounded-full;
 }
 .btn-white {
-  @apply bg-white;
+  @apply bg-slate-100 text-black;
 }
 .btn-white:hover {
   @apply bg-slate-200;
@@ -48,4 +48,8 @@ a {
 }
 .btn-blue:hover {
   @apply bg-blue-700;
+}
+
+.textfield {
+  @apply dark:disabled:bg-slate-800 dark:bg-slate-500 disabled:bg-slate-400 bg-slate-100 w-full p-1 mb-1 rounded-md;
 }

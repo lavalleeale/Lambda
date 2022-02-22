@@ -18,7 +18,7 @@ const Post = ({
 }) => {
   return (
     <div className="paper overflow-auto flex">
-      <div className="dark:bg-slate-800 bg-slate-400/80 rounded-md mr-2 self-stretch p-2 text-center">
+      <div className="dark:bg-slate-800 bg-slate-200 rounded-md mr-2 self-stretch p-2 text-center">
         <Link href={`/api/posts/${post.id}/updoot`}>
           <a
             className={`block ${
