@@ -4,6 +4,8 @@ import Link from "next/link";
 import React from "react";
 import CommentForm from "./CommentForm";
 import Modal from "./Modal";
+import SectionLink from "./SectionLink";
+import UserLink from "./UserLink";
 
 const Post = ({
   post,
@@ -58,14 +60,8 @@ const Post = ({
           </div>
         </ConditionalLink>
         <div className="w-full">
-          {!hideFrom && (
-            <Link href={`/d/${post.sectionId}`}>
-              <a className="text-gray-500">Section: d/{post.sectionId}</a>
-            </Link>
-          )}
-          <Link href={`/u/${post.author.name}`}>
-            <a className="text-gray-500 float-right">u/{post.author.name}</a>
-          </Link>
+          {!hideFrom && <SectionLink section={post.sectionId} />}
+          <UserLink user={post.author.name} />
         </div>
       </div>
     </div>
