@@ -28,7 +28,7 @@ model Section {
   name        String @id
   posts       Post[]
   subscribers User[] @relation("subscriptions")
-  User        User[] @relation("moderator")
+  moderators  User[] @relation("moderator")
 }
 
 model Post {

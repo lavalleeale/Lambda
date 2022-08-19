@@ -15,7 +15,7 @@ const SectionSidebar = ({ name, mods }: SectionSidebarProps) => {
       </form>
       <p>Moderators:</p>
       {mods.map((mod) => (
-        <Link href={`/u/${mod.name}`}>
+        <Link href={`/u/${mod.name}`} key={mod.name}>
           <a className="text-gray-500">u/{mod.name}</a>
         </Link>
       ))}

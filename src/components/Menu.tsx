@@ -24,6 +24,7 @@ const Menu = ({ options, id }: MenuProps) => {
                 width={32}
                 height={32}
                 src={option.image}
+                alt={option.name}
                 className="dark:filter dark:invert inline"
               />
               <p className="inline ml-auto self-center">{option.name}</p>

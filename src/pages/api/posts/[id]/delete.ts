@@ -13,11 +13,14 @@ export default async function handler(
   const post = await prisma?.post.findUnique({
     where: { id: req.query.id as string },
     select: {
-      section: { select: { name: true, User: { where: { id: user.id } } } },
+      author: { select: { id: true } },
+      section: {
+        select: { name: true, moderators: { where: { id: user.id } } },
+      },
     },
   });
   if (post) {
-    if (post.section.User.length === 1) {
+    if (post.section.moderators.length === 1 || post.author.id === user.id) {
       await prisma!.post.delete({
         where: { id: req.query.id as string },
       });

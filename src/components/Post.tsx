@@ -39,11 +39,11 @@ const Post = ({
                     image: "/delete.png",
                     action: `/api/posts/${post.id}/delete`,
                   },
-                  // {
-                  //   name: "Crosspost",
-                  //   image: "/cross.png",
-                  //   action: `/posts/${post.id}/cross`,
-                  // },
+                  {
+                    name: "Crosspost",
+                    image: "/cross.png",
+                    action: `/posts/${post.id}/cross`,
+                  },
                 ]}
               />
               <h3 className="text-2xl">{post.title}</h3>

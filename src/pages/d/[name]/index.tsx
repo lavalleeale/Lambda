@@ -10,7 +10,7 @@ type SectionPageProps = {
   section:
     | (Section & {
         posts: PublicPostData[];
-        User: { name: string }[];
+        moderators: { name: string }[];
       })
     | null;
   page: number;
@@ -32,7 +32,7 @@ const SectionPage: NextPage<SectionPageProps> = ({ section, page, sort }) => {
             name={section.name}
             path={`/d/${section.name}`}
           />
-          <SectionSidebar name={section.name} mods={section.User} />
+          <SectionSidebar name={section.name} mods={section.moderators} />
         </div>
       ) : (
         <div className="paper">Section Not Found</div>
@@ -57,7 +57,7 @@ export const getServerSideProps: GetServerSideProps<SectionPageProps> = async (
   const section = await prisma!.section.findUnique({
     where: { name: ctx.params?.name as string },
     include: {
-      User: true,
+      moderators: true,
       posts: {
         take: 10,
         skip: page * 10,
