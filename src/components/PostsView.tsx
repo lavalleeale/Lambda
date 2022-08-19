@@ -24,7 +24,7 @@ const PostsView = ({
       {posts.length !== 0 ? (
         <div>
           {posts.map((post) => (
-            <Post key={post.id} post={post} />
+            <Post key={post.id} post={post} hideFrom={path !== "/home"} />
           ))}
           <PageSelector page={page} postsCount={posts.length} />
         </div>
