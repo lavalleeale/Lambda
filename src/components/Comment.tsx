@@ -18,13 +18,12 @@ export type commentType = {
   children?: commentType[];
 };
 
-const Comment = ({
-  comment,
-  user,
-}: {
+type CommentComponentProps = {
   comment: commentType;
   user?: boolean;
-}) => {
+};
+
+const Comment = ({ comment, user }: CommentComponentProps) => {
   return (
     <>
       <div className="paper overflow-auto">

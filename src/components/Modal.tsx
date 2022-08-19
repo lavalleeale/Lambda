@@ -1,4 +1,9 @@
-const Modal = ({ children, text }: { children: JSX.Element; text: string }) => {
+type ModalComponentProps = {
+  children: JSX.Element;
+  text: string;
+};
+
+const Modal = ({ children, text }: ModalComponentProps) => {
   const num = Math.floor(Math.random() * 1000000);
   return (
     <>

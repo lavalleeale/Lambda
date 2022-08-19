@@ -1,12 +1,11 @@
 import Link from "next/link";
 
-const PageSelector = ({
-  page,
-  postsCount,
-}: {
+type PageSelectorComponentProps = {
   page: number;
   postsCount: number;
-}) => {
+};
+
+const PageSelector = ({ page, postsCount }: PageSelectorComponentProps) => {
   return (
     <div className="paper justify-between flex items-center">
       {page > 0 ? (

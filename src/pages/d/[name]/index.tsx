@@ -1,7 +1,7 @@
 import { Section } from "@prisma/client";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import PostsView from "../../../components/PostsView";
+import Posts from "../../../components/Posts";
 import SectionSidebar from "../../../components/SectionSidebar";
 import prisma from "../../../lib/prisma";
 import { getId } from "../../../lib/user";
@@ -25,7 +25,7 @@ const SectionPage: NextPage<SectionPageProps> = ({ section, page, sort }) => {
       </Head>
       {section ? (
         <div className="flex">
-          <PostsView
+          <Posts
             posts={section.posts}
             sort={sort}
             page={page}

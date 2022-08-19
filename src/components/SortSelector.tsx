@@ -1,14 +1,12 @@
 import Link from "next/link";
 
-const SortSelector = ({
-  sort,
-  page,
-  path,
-}: {
+type SortSelectorComponentProps = {
   sort: string;
   page: number;
   path: string;
-}) => {
+};
+
+const SortSelector = ({ sort, page, path }: SortSelectorComponentProps) => {
   return (
     <div className="paper">
       <p>Sort By:</p>

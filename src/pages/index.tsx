@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import IndexSidebar from "../components/IndexSidebar";
-import PostsView from "../components/PostsView";
+import Posts from "../components/Posts";
 import prisma from "../lib/prisma";
 import { getId } from "../lib/user";
 
@@ -19,13 +19,7 @@ const Home: NextPage<HomePageProps> = ({ sort, page, posts, topSections }) => {
         <title>Lambda</title>
       </Head>
       <div className="flex">
-        <PostsView
-          posts={posts}
-          sort={sort}
-          page={page}
-          name="Home"
-          path="/home"
-        />
+        <Posts posts={posts} sort={sort} page={page} name="Home" path="/home" />
         <IndexSidebar topSections={topSections} />
       </div>
     </>

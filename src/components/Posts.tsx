@@ -2,19 +2,19 @@ import PageSelector from "./PageSelector";
 import Post from "./Post";
 import SortSelector from "./SortSelector";
 
-const PostsView = ({
-  posts,
-  sort,
-  page,
-  name,
-  path,
-}: {
-  posts: (PublicPostData & { author: { name: string } })[];
+type PostsComponentProps = {
+  posts: (PublicPostData & {
+    author: {
+      name: string;
+    };
+  })[];
   sort: string;
   page: number;
   name: string;
   path: string;
-}) => {
+};
+
+const Posts = ({ posts, sort, page, name, path }: PostsComponentProps) => {
   return (
     <div className="w-3/4 inline-block">
       <div className="paper">
@@ -42,4 +42,4 @@ const PostsView = ({
   );
 };
 
-export default PostsView;
+export default Posts;

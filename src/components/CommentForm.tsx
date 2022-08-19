@@ -1,14 +1,16 @@
+type CommentFormComponentProps = {
+  commentId?: string;
+  user: boolean | undefined;
+  type: "post" | "comment";
+  postId: string;
+};
+
 const CommentForm = ({
   commentId,
   user,
   type,
   postId,
-}: {
-  commentId?: string;
-  user: boolean | undefined;
-  type: "post" | "comment";
-  postId: string;
-}) => {
+}: CommentFormComponentProps) => {
   return (
     <form
       className="paper overflow-auto"

@@ -1,13 +1,13 @@
 import Link from "next/link";
 
-type SectionSidebarProps = {
+type SectionSidebarComponentProps = {
   name: string;
   mods: {
     name: string;
   }[];
 };
 
-const SectionSidebar = ({ name, mods }: SectionSidebarProps) => {
+const SectionSidebar = ({ name, mods }: SectionSidebarComponentProps) => {
   return (
     <div className="paper overflow-auto w-1/4" id="sidebar">
       <form action={`/d/${name}/submit`} method="POST">

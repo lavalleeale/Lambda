@@ -1,17 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 
-const VoteDisplay = ({
-  votes,
-  id,
-  up,
-  down,
-}: {
+type VoteDisplayComponentProps = {
   votes: number;
   id: string;
   up: boolean;
   down: boolean;
-}) => {
+};
+
+const VoteDisplay = ({ votes, id, up, down }: VoteDisplayComponentProps) => {
   return (
     <div className="dark:bg-slate-800 bg-slate-200 rounded-md mr-2 self-stretch p-2 text-center h-fit w-10 hidden sm:block">
       <Link href={`/api/posts/${id}/updoot`}>

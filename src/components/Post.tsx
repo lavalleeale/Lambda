@@ -4,17 +4,14 @@ import CommentForm from "./CommentForm";
 import Menu from "./Menu";
 import VoteDisplay from "./VoteDisplay";
 
-const Post = ({
-  post,
-  hideFrom,
-  showFull,
-  user,
-}: {
+type PostComponentProps = {
   post: PublicPostData;
   hideFrom?: boolean;
   showFull?: boolean;
   user?: boolean;
-}) => {
+};
+
+const Post = ({ post, hideFrom, showFull, user }: PostComponentProps) => {
   return (
     <>
       <div className="overflow-auto paper flex">

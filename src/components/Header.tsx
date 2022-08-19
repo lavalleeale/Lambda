@@ -3,15 +3,13 @@ import { userCookie } from "../lib/user";
 import Login from "./Login";
 import Modal from "./Modal";
 
-const Header = ({
-  user,
-  dark,
-  path,
-}: {
+type HeaderComponentProps = {
   user: userCookie | null;
   dark: boolean;
   path: string;
-}) => {
+};
+
+const Header = ({ user, dark, path }: HeaderComponentProps) => {
   return (
     <div className="mb-1 w-full bg-purple-800 p-3 overflow-auto text-white">
       <Link href="/">

@@ -1,10 +1,15 @@
 import Link from "next/link";
 
-const IndexSidebar = ({
-  topSections,
-}: {
-  topSections: { name: string; _count: { posts: number } }[];
-}) => {
+type IndexSidebarComponentProps = {
+  topSections: {
+    name: string;
+    _count: {
+      posts: number;
+    };
+  }[];
+};
+
+const IndexSidebar = ({ topSections }: IndexSidebarComponentProps) => {
   return (
     <div className="paper w-1/4 inline-block" id="sidebar">
       <Link href="/d/create">

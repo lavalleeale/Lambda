@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-type MenuProps = {
+type MenuComponentProps = {
   id: string;
   options: { image: string; name: string; action: string }[];
 };
 
-const Menu = ({ options, id }: MenuProps) => {
+const Menu = ({ options, id }: MenuComponentProps) => {
   return (
     <div className="float-right flex justify-end">
       <input type="checkbox" id={`${id}-menu`} className="menu-checker" />
