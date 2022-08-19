@@ -76,7 +76,7 @@ jobs:
         run: yarn run prisma migrate deploy && yarn run prisma generate
 
       - name: Cypress run
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v4
         with:
           install: false
           build: yarn build
