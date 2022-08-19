@@ -1,7 +1,10 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import IndexSidebar from "../components/IndexSidebar";
+import PageSelector from "../components/PageSelector";
 import PostComponent from "../components/Post";
+import PostsView from "../components/PostsView";
 import SectionLink from "../components/SectionLink";
 import SortSelector from "../components/SortSelector";
 import prisma from "../lib/prisma";
@@ -14,67 +17,21 @@ type HomePageProps = {
   topSections: { name: string; _count: { posts: number } }[];
 };
 
-const Home: NextPage<HomePageProps> = (props) => {
+const Home: NextPage<HomePageProps> = ({ sort, page, posts, topSections }) => {
   return (
     <>
       <Head>
         <title>Lambda</title>
       </Head>
       <div className="flex">
-        <div className="w-3/4 inline-block">
-          <SortSelector sort={props.sort} page={props.page} path="/home" />
-          {props.posts.length !== 0 ? (
-            <div>
-              {props.posts.map((post) => (
-                <PostComponent key={post.id} post={post} />
-              ))}
-              <div className="paper justify-between flex items-center">
-                {props.page > 0 ? (
-                  <Link
-                    href={{
-                      pathname: "/home",
-                      query: { page: props.page - 1 },
-                    }}
-                  >
-                    <a className="btn btn-blue">{"<"}</a>
-                  </Link>
-                ) : (
-                  <div></div>
-                )}
-                <p className="inline">Page {props.page + 1}</p>
-                {props.posts.length === 10 ? (
-                  <Link
-                    href={{
-                      pathname: "/home",
-                      query: { page: props.page + 1 },
-                    }}
-                  >
-                    <a className="btn btn-blue">{">"}</a>
-                  </Link>
-                ) : (
-                  <div></div>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className="paper">
-              <p>No Posts Found :(</p>
-            </div>
-          )}
-        </div>
-        <div className="paper w-1/4 inline-block">
-          <Link href="/d/create">
-            <a className="btn-pill btn-white w-full block text-center">
-              Create Section
-            </a>
-          </Link>
-          <p className="mt-1">Top Sections:</p>
-          {props.topSections.map((section) => (
-            <div key={section.name}>
-              <SectionLink section={section.name} hideLabel />
-            </div>
-          ))}
-        </div>
+        <PostsView
+          posts={posts}
+          sort={sort}
+          page={page}
+          name="Home"
+          path="/home"
+        />
+        <IndexSidebar topSections={topSections} />
       </div>
     </>
   );

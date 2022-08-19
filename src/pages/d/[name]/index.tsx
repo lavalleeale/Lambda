@@ -3,6 +3,8 @@ import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import PostComponent from "../../../components/Post";
+import PostsView from "../../../components/PostsView";
+import SectionSidebar from "../../../components/SectionSidebar";
 import SortSelector from "../../../components/SortSelector";
 import prisma from "../../../lib/prisma";
 import { getId } from "../../../lib/user";
@@ -25,39 +27,14 @@ const SectionPage: NextPage<SectionPageProps> = ({ section, page, sort }) => {
       </Head>
       {section ? (
         <div className="flex">
-          <div className="w-3/4">
-            <div className="paper">
-              <p className="text-3xl capitalize">{section.name} </p>
-            </div>
-            <div>
-              <SortSelector sort={sort} page={page} path="/home" />
-              {section.posts.map((post) => (
-                <PostComponent key={post.id} post={post} hideFrom />
-              ))}
-              <div className="paper justify-between flex items-center">
-                {page > 0 ? (
-                  <Link href={`/d/${section.name}?page=${page - 1}`}>
-                    <a className="btn btn-blue">{"<"}</a>
-                  </Link>
-                ) : (
-                  <div></div>
-                )}
-                <p className="inline">Page {page + 1}</p>
-                {section.posts.length === 10 ? (
-                  <Link href={`/d/${section.name}?page=${page + 1}`}>
-                    <a className="btn btn-blue">{">"}</a>
-                  </Link>
-                ) : (
-                  <div></div>
-                )}
-              </div>
-            </div>
-          </div>
-          <div className="paper overflow-auto w-1/4">
-            <form action={`/d/${section.name}/submit`} method="POST">
-              <button className="btn-pill btn-white w-full">Create Post</button>
-            </form>
-          </div>
+          <PostsView
+            posts={section.posts}
+            sort={sort}
+            page={page}
+            name={section.name}
+            path={`/d/${section.name}`}
+          />
+          <SectionSidebar name={section.name} />
         </div>
       ) : (
         <div className="paper">Section Not Found</div>
