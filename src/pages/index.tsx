@@ -70,12 +70,8 @@ const Home: NextPage<HomePageProps> = (props) => {
           </Link>
           <p className="mt-1">Top Sections:</p>
           {props.topSections.map((section) => (
-            <div>
-              <SectionLink
-                section={section.name}
-                key={section.name}
-                hideLabel
-              />
+            <div key={section.name}>
+              <SectionLink section={section.name} hideLabel />
             </div>
           ))}
         </div>

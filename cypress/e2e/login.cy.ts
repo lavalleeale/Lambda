@@ -22,31 +22,24 @@ describe("Test Authentication", async () => {
     message: loginMessage,
     signingKeys: key,
   });
+
   before(() => {
     cy.task("db:teardown");
   });
-  it("should navigate to the login page", () => {
-    cy.visit("http://localhost:3000/");
 
-    cy.contains("Login").click();
-
-    cy.get(".btn").contains("Login");
-  });
   it("should sign up", () => {
+    cy.visit("");
     cy.getCookie("user").should("not.exist");
+    cy.contains("Login").click();
     cy.get("#sig").type(signedSignupMessage, { delay: 0 });
     cy.get(".btn").click();
     cy.getCookie("user").should("exist");
   });
-  it("should navigate to the login page", () => {
-    cy.visit("http://localhost:3000/");
 
-    cy.contains("Login").click();
-
-    cy.get(".btn").contains("Login");
-  });
   it("shoud login", () => {
+    cy.visit("");
     cy.getCookie("user").should("not.exist");
+    cy.contains("Login").click();
     cy.get("#sig").type(signedLoginMessage, { delay: 0 });
     cy.get(".btn").click();
     cy.getCookie("user").should("exist");
