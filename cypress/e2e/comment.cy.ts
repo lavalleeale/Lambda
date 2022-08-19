@@ -22,7 +22,7 @@ describe("Test Commenting", () => {
     cy.get("#title").type(`Post`);
     cy.get(".btn").click();
     cy.contains(`Post`).should("exist");
-    cy.contains("Section: d/ReallyCool").should("exist");
+    cy.contains("d/ReallyCool").should("exist");
     cy.get(".dark\\:bg-slate-800 > .text-gray-500").should("contain", "1");
   });
 

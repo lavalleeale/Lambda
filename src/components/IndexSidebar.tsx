@@ -16,7 +16,7 @@ const IndexSidebar = ({
       <p className="mt-1">Top Sections:</p>
       {topSections.map((section) => (
         <div key={section.name}>
-          <SectionLink section={section.name} hideLabel />
+          <SectionLink section={section.name} />
         </div>
       ))}
     </div>

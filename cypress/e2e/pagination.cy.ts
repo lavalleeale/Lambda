@@ -22,7 +22,7 @@ describe("Test Pagination", () => {
       cy.get("#title").type(`Post ${index}`, { delay: 0 });
       cy.get(".btn").click();
       cy.contains(`Post ${index}`).should("exist");
-      cy.contains("Section: d/ReallyCool").should("exist");
+      cy.contains("d/ReallyCool").should("exist");
       cy.get(".dark\\:bg-slate-800 > .text-gray-500").should("contain", "1");
     });
   });

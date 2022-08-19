@@ -58,7 +58,7 @@ const Comment = ({
                     : "dark:filter dark:invert"
                 }`}
               >
-                <img src="/updoot.png" alt="updoot" className="w-6" />
+                <img src="/vote.png" alt="updoot" className="w-6" />
               </a>
             </Link>
             <p className="text-gray-500">{comment.upsNum - comment.downsNum}</p>
@@ -66,11 +66,11 @@ const Comment = ({
               <a
                 className={`${
                   comment.downs.length !== 0
-                    ? "purple"
-                    : "dark:filter dark:invert"
+                    ? "purple rotate-180"
+                    : "dark:filter dark:invert rotate-180"
                 }`}
               >
-                <img src="/downdoot.png" alt="downdoot" className="w-6" />
+                <img src="/vote.png" alt="downdoot" className="w-6" />
               </a>
             </Link>
           </div>

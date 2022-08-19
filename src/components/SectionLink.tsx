@@ -1,17 +1,9 @@
 import Link from "next/link";
 
-const SectionLink = ({
-  section,
-  hideLabel = false,
-}: {
-  section: string;
-  hideLabel?: boolean;
-}) => {
+const SectionLink = ({ section }: { section: string }) => {
   return (
     <Link href={`/d/${section}`}>
-      <a className="text-gray-500">
-        {!hideLabel && "Section: "}d/{section}
-      </a>
+      <a className="text-gray-500">d/{section}</a>
     </Link>
   );
 };

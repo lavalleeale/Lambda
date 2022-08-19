@@ -27,29 +27,37 @@ a {
   @apply text-blue-600 hover:text-blue-800;
 }
 
-.paper {
-  @apply p-2 m-1 rounded-md dark:bg-slate-900 bg-white border border-gray-300 dark:border-gray-700;
+@layer utilities {
+  .post-body {
+    width: calc(100% - 3rem);
+  }
 }
 
-.btn {
-  @apply font-bold py-2 px-4 rounded;
-}
-.btn-pill {
-  @apply font-bold py-2 px-4 rounded-full;
-}
-.btn-white {
-  @apply bg-slate-100 text-black;
-}
-.btn-white:hover {
-  @apply bg-slate-200;
-}
-.btn-blue {
-  @apply bg-blue-500 text-white;
-}
-.btn-blue:hover {
-  @apply bg-blue-700;
-}
+@layer components {
+  .paper {
+    @apply p-2 m-1 rounded-md dark:bg-slate-900 bg-white border border-gray-300 dark:border-gray-700;
+  }
 
-.textfield {
-  @apply dark:disabled:bg-slate-800 dark:bg-slate-500 disabled:bg-slate-400 bg-slate-100 w-full p-1 mb-1 rounded-md;
+  .btn {
+    @apply font-bold py-2 px-4 rounded;
+  }
+  .btn-pill {
+    @apply font-bold py-2 px-4 rounded-full;
+  }
+  .btn-white {
+    @apply bg-slate-100 text-black;
+  }
+  .btn-white:hover {
+    @apply bg-slate-200;
+  }
+  .btn-blue {
+    @apply bg-blue-500 text-white;
+  }
+  .btn-blue:hover {
+    @apply bg-blue-700;
+  }
+
+  .textfield {
+    @apply dark:disabled:bg-slate-800 dark:bg-slate-500 disabled:bg-slate-400 bg-slate-100 w-full p-1 mb-1 rounded-md;
+  }
 }
