@@ -7,7 +7,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const user = await getId(req);
+  const user = getId(req);
   if (!user) {
     return res.status(401).redirect(req.headers.referer ?? "/");
   }

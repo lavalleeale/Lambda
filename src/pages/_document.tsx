@@ -1,3 +1,4 @@
+import { parse, serialize } from "cookie";
 import Document, {
   DocumentContext,
   Head,
@@ -6,9 +7,7 @@ import Document, {
   NextScript,
 } from "next/document";
 import Header from "../components/Header";
-import React from "react";
 import { getId, userCookie } from "../lib/user";
-import { parse, serialize } from "cookie";
 
 interface Props {
   user: userCookie | null;

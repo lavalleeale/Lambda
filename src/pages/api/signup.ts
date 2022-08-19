@@ -1,10 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from "next";
-import { readCleartextMessage, readSignature } from "openpgp";
+import { User } from "@prisma/client";
 import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { readCleartextMessage, readSignature } from "openpgp";
 import prisma from "../../lib/prisma";
-import { User } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,

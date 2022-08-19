@@ -1,5 +1,3 @@
-import React from "react";
-
 const NotFound = () => {
   return (
     <div className="grid place-items-center h-screen">

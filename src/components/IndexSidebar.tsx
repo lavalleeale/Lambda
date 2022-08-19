@@ -1,5 +1,4 @@
 import Link from "next/link";
-import SectionLink from "./SectionLink";
 
 const IndexSidebar = ({
   topSections,
@@ -16,7 +15,9 @@ const IndexSidebar = ({
       <p className="mt-1">Top Sections:</p>
       {topSections.map((section) => (
         <div key={section.name}>
-          <SectionLink section={section.name} />
+          <Link href={`/d/${section.name}`}>
+            <a className="text-gray-500">d/{section.name}</a>
+          </Link>
         </div>
       ))}
     </div>

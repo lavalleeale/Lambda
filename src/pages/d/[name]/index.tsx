@@ -1,11 +1,8 @@
 import { Section } from "@prisma/client";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
-import PostComponent from "../../../components/Post";
 import PostsView from "../../../components/PostsView";
 import SectionSidebar from "../../../components/SectionSidebar";
-import SortSelector from "../../../components/SortSelector";
 import prisma from "../../../lib/prisma";
 import { getId } from "../../../lib/user";
 
@@ -13,6 +10,7 @@ type SectionPageProps = {
   section:
     | (Section & {
         posts: PublicPostData[];
+        User: { name: string }[];
       })
     | null;
   page: number;
@@ -34,7 +32,7 @@ const SectionPage: NextPage<SectionPageProps> = ({ section, page, sort }) => {
             name={section.name}
             path={`/d/${section.name}`}
           />
-          <SectionSidebar name={section.name} />
+          <SectionSidebar name={section.name} mods={section.User} />
         </div>
       ) : (
         <div className="paper">Section Not Found</div>
@@ -59,6 +57,7 @@ export const getServerSideProps: GetServerSideProps<SectionPageProps> = async (
   const section = await prisma!.section.findUnique({
     where: { name: ctx.params?.name as string },
     include: {
+      User: true,
       posts: {
         take: 10,
         skip: page * 10,

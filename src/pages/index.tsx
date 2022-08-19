@@ -1,12 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import IndexSidebar from "../components/IndexSidebar";
-import PageSelector from "../components/PageSelector";
-import PostComponent from "../components/Post";
 import PostsView from "../components/PostsView";
-import SectionLink from "../components/SectionLink";
-import SortSelector from "../components/SortSelector";
 import prisma from "../lib/prisma";
 import { getId } from "../lib/user";
 

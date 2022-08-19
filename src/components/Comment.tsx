@@ -1,7 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { Post } from "@prisma/client";
 import Link from "next/link";
-import React from "react";
 import CommentForm from "./CommentForm";
 import Modal from "./Modal";
 

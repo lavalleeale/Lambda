@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
-import prisma from "./prisma";
 import { parse } from "cookie";
 import { IncomingMessage } from "http";
+import jwt from "jsonwebtoken";
+import prisma from "./prisma";
 
 export type userCookie = {
   id: string;

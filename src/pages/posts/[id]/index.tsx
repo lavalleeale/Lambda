@@ -1,9 +1,9 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import PostComponent from "../../components/Post";
-import prisma from "../../lib/prisma";
-import { getId, userCookie } from "../../lib/user";
-import Comment, { commentType } from "../../components/Comment";
+import Comment, { commentType } from "../../../components/Comment";
+import PostComponent from "../../../components/Post";
+import prisma from "../../../lib/prisma";
+import { getId, userCookie } from "../../../lib/user";
 
 type PostPageProps = {
   post: PublicPostData & {

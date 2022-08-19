@@ -1,6 +1,6 @@
 import PageSelector from "./PageSelector";
-import SortSelector from "./SortSelector";
 import Post from "./Post";
+import SortSelector from "./SortSelector";
 
 const PostsView = ({
   posts,

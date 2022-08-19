@@ -1,5 +1,3 @@
-import React from "react";
-
 const Modal = ({ children, text }: { children: JSX.Element; text: string }) => {
   const num = Math.floor(Math.random() * 1000000);
   return (

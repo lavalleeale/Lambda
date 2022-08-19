@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React from "react";
 import { userCookie } from "../lib/user";
 import Login from "./Login";
 import Modal from "./Modal";

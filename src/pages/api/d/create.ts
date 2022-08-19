@@ -12,7 +12,7 @@ export default async function handler(
     const userId = getId(req);
     if (userId) {
       const section = await prisma!.section.create({
-        data: { name: req.body.name },
+        data: { name: req.body.name, User: { connect: { id: userId.id } } },
       });
       return res.status(200).redirect(`/d/${section.name}`);
     } else {
