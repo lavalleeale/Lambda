@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-import { generateKey, createCleartextMessage, sign } from "openpgp";
+import { createCleartextMessage, generateKey, sign } from "openpgp";
 
 describe("Test Authentication", async () => {
   const key = (
@@ -8,13 +8,6 @@ describe("Test Authentication", async () => {
       format: "object",
     })
   ).privateKey;
-  const signupMessage = await createCleartextMessage({
-    text: "I am AuthTester and I wish to sign up",
-  });
-  const signedSignupMessage = await sign({
-    message: signupMessage,
-    signingKeys: key,
-  });
   const loginMessage = await createCleartextMessage({
     text: "I am AuthTester and I wish to login",
   });
@@ -31,7 +24,7 @@ describe("Test Authentication", async () => {
     cy.visit("");
     cy.getCookie("user").should("not.exist");
     cy.contains("Login").click();
-    cy.get("#sig").type(signedSignupMessage, { delay: 0 });
+    cy.get("#sig").type(signedLoginMessage, { delay: 0 });
     cy.get(".btn").click();
     cy.getCookie("user").should("exist");
   });

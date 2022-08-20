@@ -1,5 +1,4 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { User } from "@prisma/client";
 import { serialize } from "cookie";
 import jwt from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -22,36 +21,38 @@ export default async function handler(
     signature.packets[0].created &&
     new Date().getTime() - signature.packets[0].created.getTime() < 30 * 1000
   ) {
-    var user: User | null = null;
-
-    if (message.getText().match(/I am .+ and I wish to sign up/)) {
-      let key = message.getSigningKeyIDs()[0].toHex();
-      user = await prisma!.user.create({
-        data: {
-          key,
-          name: message.getText().match(/I am (.+) and I wish to sign up/)![1],
-        },
-      });
-    } else if (message.getText().match(/I am .+ and I wish to login/)) {
-      let key = message.getSigningKeyIDs()[0].toHex();
-      user = await prisma!.user.findUnique({ where: { key } });
+    if (!message.getText().match(/I am .+ and I wish to login/)) {
+      return res.status(401).redirect("/login");
     }
 
-    if (user) {
-      const token = jwt.sign(
-        { id: user.id, name: user.name },
-        process.env.JWT_PRIVATE
-      );
-      res.setHeader(
-        "Set-Cookie",
-        serialize("user", token, {
-          httpOnly: true,
-          path: "/",
-        })
-      );
+    const key = message.getSigningKeyIDs()[0].toHex();
+    const user = await prisma!.user.upsert({
+      where: { key },
+      create: {
+        key,
+        name: message.getText().match(/I am (.+) and I wish to login/)![1],
+      },
+      update: {},
+    });
 
-      return res.status(200).redirect(req.headers.referer ?? "/");
+    if (user === null) {
+      return res.status(401).redirect("/login");
     }
+
+    const token = jwt.sign(
+      { id: user.id, name: user.name },
+      process.env.JWT_PRIVATE
+    );
+
+    res.setHeader(
+      "Set-Cookie",
+      serialize("user", token, {
+        httpOnly: true,
+        path: "/",
+      })
+    );
+
+    return res.status(200).redirect(req.headers.referer ?? "/");
   }
 
   res.status(401).redirect("/login");
