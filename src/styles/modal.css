@@ -17,3 +17,7 @@
 .modal {
   @apply w-1/2 left-1/4 top-1/4 z-20 fixed hidden rounded-md;
 }
+
+.modal + label {
+  @apply text-blue-600 hover:text-blue-800 cursor-pointer;
+}

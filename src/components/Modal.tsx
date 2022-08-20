@@ -7,7 +7,6 @@ const Modal = ({ children, text }: ModalComponentProps) => {
   const num = Math.floor(Math.random() * 1000000);
   return (
     <>
-      <label htmlFor={`${num}-modal-checkbox`}>{text}</label>
       <input
         id={`${num}-modal-checkbox`}
         type="checkbox"
@@ -15,6 +14,7 @@ const Modal = ({ children, text }: ModalComponentProps) => {
         autoComplete="off"
       />
       <div className="modal">{children}</div>
+      <label htmlFor={`${num}-modal-checkbox`}>{text}</label>
     </>
   );
 };

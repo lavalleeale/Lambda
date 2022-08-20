@@ -32,7 +32,6 @@ const Home: NextPage<HomePageProps> = ({
           posts={posts}
           sort={sort}
           page={page}
-          name="Home"
           path="/home"
           currentUser={currentUser}
         />

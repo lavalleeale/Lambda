@@ -1,3 +1,5 @@
+import IconButton from "./IconButton";
+
 /* eslint-disable @next/next/no-img-element */
 type Option = {
   image: string;
@@ -16,11 +18,14 @@ const Menu = ({ options, id }: MenuComponentProps) => {
     case 0:
       return <></>;
     case 1:
+      const option = options.filter((option) => option.enabled)[0];
       return (
-        <div className="w-28">
-          <MenuOption
-            option={options.filter((option) => option.enabled)[0]}
-            showBorder={false}
+        <div className="w-max float-right">
+          <IconButton
+            key={option.name}
+            link={option.action}
+            image={option.image}
+            name={option.name}
           />
         </div>
       );
@@ -30,14 +35,16 @@ const Menu = ({ options, id }: MenuComponentProps) => {
           <div className="float-right flex justify-end w-6 h-6 text-center">
             <input type="checkbox" id={`${id}-menu`} className="menu-checker" />
             <label htmlFor={`${id}-menu`} />
-            <div className="menu paper w-52 absolute top-24">
+            <div className="menu w-52 absolute top-44 p-0">
               {options
                 .filter((option) => option.enabled)
-                .map((option, index) => (
-                  <MenuOption
-                    option={option}
-                    showBorder={index !== 0}
+                .map((option) => (
+                  <IconButton
                     key={option.name}
+                    link={option.action}
+                    image={option.image}
+                    name={option.name}
+                    className="m-0"
                   />
                 ))}
             </div>
@@ -45,36 +52,6 @@ const Menu = ({ options, id }: MenuComponentProps) => {
         </>
       );
   }
-};
-
-const MenuOption = ({
-  option,
-  showBorder,
-}: {
-  option: Option;
-  showBorder: boolean;
-}) => {
-  return (
-    <form action={option.action}>
-      <button
-        type="submit"
-        className={`w-full flex ${
-          showBorder
-            ? "border-t border-gray-300 dark:border-gray-700 pt-2 mt-1"
-            : ""
-        }`}
-      >
-        <img
-          width={32}
-          height={32}
-          src={option.image}
-          alt={option.name}
-          className="dark:filter dark:invert inline"
-        />
-        <p className="inline ml-auto self-center">{option.name}</p>
-      </button>
-    </form>
-  );
 };
 
 export default Menu;

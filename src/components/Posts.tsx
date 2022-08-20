@@ -10,7 +10,6 @@ type PostsComponentProps = {
   })[];
   sort: string;
   page: number;
-  name: string;
   path: string;
   currentUser: string | null;
 };
@@ -19,15 +18,11 @@ const Posts = ({
   posts,
   sort,
   page,
-  name,
   path,
   currentUser,
 }: PostsComponentProps) => {
   return (
     <div className="w-3/4 inline-block">
-      <div className="paper">
-        <p className="text-3xl capitalize">{name} </p>
-      </div>
       <SortSelector sort={sort} page={page} path={path} />
       {posts.length !== 0 ? (
         <div>

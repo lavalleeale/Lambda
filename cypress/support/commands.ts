@@ -42,7 +42,7 @@ Cypress.Commands.add("login", () => {
           signingKeys: key,
         });
         cy.visit("");
-        cy.contains("Login").click();
+        cy.get("#header > > label").click();
         cy.get("#sig").type(signedLoginMessage, { delay: 0 });
         cy.contains("Login / Sign up").click();
         cy.getCookie("user").should("exist");

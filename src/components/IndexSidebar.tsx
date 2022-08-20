@@ -12,6 +12,7 @@ type IndexSidebarComponentProps = {
 const IndexSidebar = ({ topSections }: IndexSidebarComponentProps) => {
   return (
     <div className="paper w-1/4 inline-block" id="sidebar">
+      <p className="text-3xl text-center">Home</p>
       <Link href="/d/create">
         <a className="btn-pill btn-white w-full block text-center">
           Create Section

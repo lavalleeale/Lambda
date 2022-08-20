@@ -24,6 +24,18 @@ code {
   @apply dark:text-white;
 }
 
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label,
+code {
+  @apply text-black;
+}
+
 a {
   @apply text-blue-600 hover:text-blue-800;
 }

@@ -44,7 +44,7 @@ model Post {
   body      String?
   author    User     @relation("posts", fields: [authorId], references: [id])
   authorId  String
-  section   Section  @relation(fields: [sectionId], references: [name])
+  section   Section  @relation(fields: [sectionId], references: [name], onDelete: Cascade)
   sectionId String
 
   comments Comment[]

@@ -39,11 +39,14 @@ const SectionPage: NextPage<SectionPageProps> = ({
             posts={section.posts}
             sort={sort}
             page={page}
-            name={section.name}
             path={`/d/${section.name}`}
             currentUser={currentUser}
           />
-          <SectionSidebar name={section.name} mods={section.moderators} />
+          <SectionSidebar
+            name={section.name}
+            mods={section.moderators}
+            modIds={section.moderators}
+          />
         </div>
       ) : (
         <div className="paper">Section Not Found</div>

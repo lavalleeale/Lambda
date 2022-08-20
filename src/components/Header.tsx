@@ -11,7 +11,10 @@ type HeaderComponentProps = {
 
 const Header = ({ user, dark, path }: HeaderComponentProps) => {
   return (
-    <div className="mb-1 w-full bg-purple-800 p-3 overflow-auto text-white">
+    <div
+      className="mb-1 w-full bg-purple-800 p-3 overflow-auto text-white"
+      id="header"
+    >
       <Link href="/">
         <a>
           <h1 className="inline text-2xl text-white">λ</h1>
@@ -26,8 +29,8 @@ const Header = ({ user, dark, path }: HeaderComponentProps) => {
         <p className="inline mx-2">|</p>
         {user?.name ? (
           <Link href={`/u/${user.name}`}>
-            <a className="text-white">
-              <p className="inline">{user.name}</p>
+            <a>
+              <p className="inline text-white">{user.name}</p>
             </a>
           </Link>
         ) : (
