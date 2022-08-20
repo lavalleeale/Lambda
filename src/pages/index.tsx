@@ -6,20 +6,36 @@ import prisma from "../lib/prisma";
 import { getId } from "../lib/user";
 
 type HomePageProps = {
-  posts: (PublicPostData & { author: { name: string } })[];
+  posts: (PublicPostData & {
+    section: { moderators: {}[] };
+  })[];
   page: number;
   sort: string;
   topSections: { name: string; _count: { posts: number } }[];
+  currentUser: string | null;
 };
 
-const Home: NextPage<HomePageProps> = ({ sort, page, posts, topSections }) => {
+const Home: NextPage<HomePageProps> = ({
+  sort,
+  page,
+  posts,
+  topSections,
+  currentUser,
+}) => {
   return (
     <>
       <Head>
         <title>Lambda</title>
       </Head>
       <div className="flex">
-        <Posts posts={posts} sort={sort} page={page} name="Home" path="/home" />
+        <Posts
+          posts={posts}
+          sort={sort}
+          page={page}
+          name="Home"
+          path="/home"
+          currentUser={currentUser}
+        />
         <IndexSidebar topSections={topSections} />
       </div>
     </>
@@ -29,7 +45,7 @@ const Home: NextPage<HomePageProps> = ({ sort, page, posts, topSections }) => {
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
   ctx
 ) => {
-  const id = getId(ctx.req)?.id ?? "";
+  const user = getId(ctx.req);
   const page = ctx.query.page ? parseInt(ctx.query.page as string, 10) : 0;
   const sort: { [key: string]: "desc" | "asc" } =
     ctx.query.sort === "new"
@@ -51,9 +67,14 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
       sectionId: true,
       upsNum: true,
       downsNum: true,
-      ups: { where: { id: id }, select: { name: true } },
-      downs: { where: { id: id }, select: { name: true } },
+      ups: { where: { id: user?.id }, select: { name: true } },
+      downs: { where: { id: user?.id }, select: { name: true } },
       author: { select: { name: true } },
+      section: {
+        select: {
+          moderators: { where: { id: user?.id }, select: { id: true } },
+        },
+      },
     },
   });
 
@@ -69,6 +90,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
       page,
       sort: (ctx.query.sort as string) ?? "best",
       topSections: topSecions,
+      currentUser: user?.name || null,
     },
   };
 };

@@ -9,15 +9,25 @@ import { getId } from "../../../lib/user";
 type SectionPageProps = {
   section:
     | (Section & {
-        posts: PublicPostData[];
+        posts: (PublicPostData & {
+          section: {
+            moderators: {}[];
+          };
+        })[];
         moderators: { name: string }[];
       })
     | null;
   page: number;
   sort: string;
+  currentUser: string | null;
 };
 
-const SectionPage: NextPage<SectionPageProps> = ({ section, page, sort }) => {
+const SectionPage: NextPage<SectionPageProps> = ({
+  section,
+  page,
+  sort,
+  currentUser,
+}) => {
   return (
     <>
       <Head>
@@ -31,6 +41,7 @@ const SectionPage: NextPage<SectionPageProps> = ({ section, page, sort }) => {
             page={page}
             name={section.name}
             path={`/d/${section.name}`}
+            currentUser={currentUser}
           />
           <SectionSidebar name={section.name} mods={section.moderators} />
         </div>
@@ -44,7 +55,7 @@ const SectionPage: NextPage<SectionPageProps> = ({ section, page, sort }) => {
 export const getServerSideProps: GetServerSideProps<SectionPageProps> = async (
   ctx
 ) => {
-  const id = getId(ctx.req)?.id ?? "";
+  const id = getId(ctx.req)?.id;
   const page = ctx.query.page ? parseInt(ctx.query.page as string, 10) : 0;
   const sort: { [key: string]: "desc" | "asc" } =
     ctx.query.sort === "new"
@@ -72,6 +83,9 @@ export const getServerSideProps: GetServerSideProps<SectionPageProps> = async (
           ups: { where: { id: id }, select: { name: true } },
           downs: { where: { id: id }, select: { name: true } },
           author: { select: { name: true } },
+          section: {
+            select: { moderators: { where: { id: id }, select: { id: true } } },
+          },
         },
       },
     },
@@ -81,7 +95,12 @@ export const getServerSideProps: GetServerSideProps<SectionPageProps> = async (
     return { notFound: true };
   }
   return {
-    props: { section, page, sort: (ctx.query.sort as string) ?? "best" },
+    props: {
+      section,
+      page,
+      sort: (ctx.query.sort as string) ?? "best",
+      currentUser: id || null,
+    },
   };
 };
 

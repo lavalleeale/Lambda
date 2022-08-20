@@ -8,11 +8,16 @@ type UserPageProps = {
   user: {
     name: string;
     key: string;
-    posts: PublicPostData[];
+    posts: (PublicPostData & {
+      section: {
+        moderators: {}[];
+      };
+    })[];
   } | null;
+  currentUser: string | null;
 };
 
-const UserPage: NextPage<UserPageProps> = ({ user }) => {
+const UserPage: NextPage<UserPageProps> = ({ user, currentUser }) => {
   return (
     <>
       <Head>
@@ -25,7 +30,11 @@ const UserPage: NextPage<UserPageProps> = ({ user }) => {
             <p>PGP Key ID: {user.key}</p>
           </div>
           {user.posts.map((post) => (
-            <PostComponent key={post.id} post={post} />
+            <PostComponent
+              key={post.id}
+              post={post}
+              currentUser={currentUser}
+            />
           ))}
         </>
       ) : (
@@ -38,7 +47,7 @@ const UserPage: NextPage<UserPageProps> = ({ user }) => {
 export const getServerSideProps: GetServerSideProps<UserPageProps> = async (
   ctx
 ) => {
-  const id = getId(ctx.req)?.id ?? "";
+  const id = getId(ctx.req)?.id;
   const user = await prisma!.user.findUnique({
     where: { name: ctx.params?.name as string },
     include: {
@@ -51,6 +60,9 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (
           sectionId: true,
           upsNum: true,
           downsNum: true,
+          section: {
+            select: { moderators: { where: { id }, select: { id: true } } },
+          },
           ups: { where: { id: id }, select: { name: true } },
           downs: { where: { id: id }, select: { name: true } },
           author: { select: { name: true } },
@@ -64,7 +76,7 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (
   }
 
   return {
-    props: { user },
+    props: { user, currentUser: id || null },
   };
 };
 

@@ -8,6 +8,7 @@ import { getId, userCookie } from "../../../lib/user";
 type PostPageProps = {
   post: PublicPostData & {
     comments: commentType[];
+    section: { moderators: {}[] };
   };
   user: userCookie | null;
 };
@@ -18,7 +19,7 @@ const PostPage: NextPage<PostPageProps> = ({ post, user }) => {
       <Head>
         <title>λ | {post.title}</title>
       </Head>
-      <PostComponent post={post} showFull user={user !== null} />
+      <PostComponent post={post} showFull currentUser={user?.name || null} />
       {post.comments.map((comment) => (
         <Comment key={comment.id} comment={comment} user={user !== null} />
       ))}
@@ -29,7 +30,7 @@ const PostPage: NextPage<PostPageProps> = ({ post, user }) => {
 export const getServerSideProps: GetServerSideProps<PostPageProps> = async (
   ctx
 ) => {
-  const id = getId(ctx.req)?.id ?? "";
+  const id = getId(ctx.req)?.id;
   const commentSelect = {
     depth: true,
     postId: true,
@@ -53,6 +54,9 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async (
       downsNum: true,
       ups: { where: { id: id }, select: { name: true } },
       downs: { where: { id: id }, select: { name: true } },
+      section: {
+        select: { moderators: { where: { id }, select: { id: true } } },
+      },
       comments: {
         where: { parentId: null },
         select: {

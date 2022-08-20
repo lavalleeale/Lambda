@@ -10,7 +10,7 @@ type CrossPageProps = {
     sectionId: string;
     id: string;
   };
-  error: string | undefined;
+  error: string | null;
 };
 
 const PostPage: NextPage<CrossPageProps> = ({ post, error }) => {
@@ -64,7 +64,7 @@ export const getServerSideProps: GetServerSideProps<CrossPageProps> = async (
   }
 
   return {
-    props: { post, error: ctx.query.error as string | undefined },
+    props: { post, error: (ctx.query.error as string | undefined) || null },
   };
 };
 

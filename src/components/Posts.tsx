@@ -4,17 +4,25 @@ import SortSelector from "./SortSelector";
 
 type PostsComponentProps = {
   posts: (PublicPostData & {
-    author: {
-      name: string;
+    section: {
+      moderators: {}[];
     };
   })[];
   sort: string;
   page: number;
   name: string;
   path: string;
+  currentUser: string | null;
 };
 
-const Posts = ({ posts, sort, page, name, path }: PostsComponentProps) => {
+const Posts = ({
+  posts,
+  sort,
+  page,
+  name,
+  path,
+  currentUser,
+}: PostsComponentProps) => {
   return (
     <div className="w-3/4 inline-block">
       <div className="paper">
@@ -29,6 +37,7 @@ const Posts = ({ posts, sort, page, name, path }: PostsComponentProps) => {
               post={post}
               hideFrom={path !== "/home"}
               showFull={false}
+              currentUser={currentUser}
             />
           ))}
           <PageSelector page={page} postsCount={posts.length} />
