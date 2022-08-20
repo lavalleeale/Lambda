@@ -1,5 +1,6 @@
 import { Post } from "@prisma/client";
 import Link from "next/link";
+import { CSSProperties } from "react";
 import CommentForm from "./CommentForm";
 import Menu from "./Menu";
 import VoteDisplay from "./VoteDisplay";
@@ -31,7 +32,7 @@ const Post = ({
             <ConditionalLink
               to={`/posts/${post.id}`}
               condition={!showFull}
-              className="grow"
+              className="grow w-0"
             >
               <div>
                 <h3 className="text-2xl">{post.title}</h3>
@@ -84,18 +85,24 @@ const ConditionalLink = ({
   to,
   condition,
   className,
+  style,
 }: {
   children: JSX.Element;
   to: string;
   condition?: boolean;
   className?: string;
+  style?: CSSProperties;
 }) =>
   condition ? (
     <Link href={to}>
-      <a className={className}>{children}</a>
+      <a className={className} style={style}>
+        {children}
+      </a>
     </Link>
   ) : (
-    <div className={className}>{children}</div>
+    <div className={className} style={style}>
+      {children}
+    </div>
   );
 
 export default Post;

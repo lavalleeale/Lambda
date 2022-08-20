@@ -17,10 +17,12 @@ const Menu = ({ options, id }: MenuComponentProps) => {
       return <></>;
     case 1:
       return (
-        <MenuOption
-          option={options.filter((option) => option.enabled)[0]}
-          showBorder={false}
-        />
+        <div className="w-28">
+          <MenuOption
+            option={options.filter((option) => option.enabled)[0]}
+            showBorder={false}
+          />
+        </div>
       );
     default:
       return (

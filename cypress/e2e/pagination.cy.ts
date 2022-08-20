@@ -1,52 +1,62 @@
 /// <reference types="cypress" />
 
 describe("Test Pagination", () => {
-  before(() => {
+  beforeEach(() => {
     cy.task("db:teardown");
     cy.task("db:seed");
-  });
-
-  beforeEach(cy.login);
-
-  it("should create section", () => {
-    cy.visit("");
-    cy.get(".btn-pill").click();
-    cy.get("#name").type("ReallyCool");
-    cy.get(".btn").click();
-    cy.url().should("contain", "ReallyCool");
-  });
-
-  it("should create posts", () => {
-    cy.wrap(Array.from({ length: 21 })).each((_, index) => {
-      cy.visit("/d/ReallyCool/submit");
-      cy.get("#title").type(`Post ${index}`, { delay: 0 });
-      cy.get(".btn").click();
-      cy.contains(`Post ${index}`).should("exist");
-      cy.contains("d/ReallyCool").should("exist");
-      cy.get(".dark\\:bg-slate-800 > .text-gray-500").should("contain", "1");
-    });
+    cy.login();
   });
 
   it("should test first page", () => {
+    cy.wrap(Array.from({ length: 21 })).each((_, index) => {
+      cy.task("db:createPost", {
+        title: `Post ${index}`,
+        body: "",
+        section: "ReallyCool",
+        owner: "Tester",
+        upsNum: 1,
+      });
+    });
+
     cy.visit("");
     postSelector(1).should("contain", "Post 20");
     postSelector(10).should("contain", "Post 11");
   });
 
-  it("should second page", () => {
+  it("should test second page", () => {
+    cy.wrap(Array.from({ length: 21 })).each((_, index) => {
+      cy.task("db:createPost", {
+        title: `Post ${index}`,
+        body: "",
+        section: "ReallyCool",
+        owner: "Tester",
+        upsNum: 1,
+      });
+    });
+
     cy.visit("");
     cy.contains(">").click();
-    cy.wait(500);
+    cy.url().should("contain", "page=1");
     postSelector(1).should("contain", "Post 10");
     postSelector(10).should("contain", "Post 1");
   });
 
   it("should test third page", () => {
+    cy.wrap(Array.from({ length: 21 })).each((_, index) => {
+      cy.task("db:createPost", {
+        title: `Post ${index}`,
+        body: "",
+        section: "ReallyCool",
+        owner: "Tester",
+        upsNum: 1,
+      });
+    });
+
     cy.visit("");
     cy.contains(">").click();
-    cy.wait(500);
+    cy.url().should("contain", "page=1");
     cy.contains(">").click();
-    cy.wait(500);
+    cy.url().should("contain", "page=2");
     postSelector(1).should("contain", "Post 0");
   });
 });

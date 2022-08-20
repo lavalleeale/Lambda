@@ -21,18 +21,67 @@ export default defineConfig({
           const keyText = config.env.key;
           return (async () => {
             const key = await readPrivateKey({ armoredKey: keyText });
-            await prisma!.user.create({
+            return await prisma!.user.create({
               data: {
                 key: key.getKeyID().toHex(),
                 name: "Tester",
                 id: "Tester",
               },
             });
-            return await prisma!.user.create({
+          })();
+        },
+        "db:createSection": ({
+          name,
+          owner,
+        }: {
+          name: string;
+          owner: string;
+        }) => {
+          return (async () => {
+            return await prisma!.section.create({
               data: {
-                key: "test",
-                name: "user2",
-                id: "user2",
+                name: name,
+                moderators: {
+                  connectOrCreate: {
+                    where: { name: owner },
+                    create: { name: owner, key: owner },
+                  },
+                },
+              },
+            });
+          })();
+        },
+        "db:createPost": ({
+          title,
+          body,
+          section,
+          owner,
+          upsNum,
+        }: {
+          title: string;
+          body: string;
+          section: string;
+          owner: string;
+          upsNum?: number;
+        }) => {
+          return (async () => {
+            return await prisma!.post.create({
+              data: {
+                title,
+                body,
+                author: {
+                  connectOrCreate: {
+                    where: { name: owner },
+                    create: { name: owner, key: owner },
+                  },
+                },
+                section: {
+                  connectOrCreate: {
+                    where: { name: section },
+                    create: { name: section },
+                  },
+                },
+                upsNum,
               },
             });
           })();

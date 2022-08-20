@@ -28,13 +28,4 @@ describe("Test Authentication", async () => {
     cy.get(".btn").click();
     cy.getCookie("user").should("exist");
   });
-
-  it("shoud login", () => {
-    cy.visit("");
-    cy.getCookie("user").should("not.exist");
-    cy.contains("Login").click();
-    cy.get("#sig").type(signedLoginMessage, { delay: 0 });
-    cy.get(".btn").click();
-    cy.getCookie("user").should("exist");
-  });
 });

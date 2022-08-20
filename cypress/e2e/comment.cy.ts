@@ -1,32 +1,21 @@
 /// <reference types="cypress" />
 
 describe("Test Commenting", () => {
-  before(() => {
+  beforeEach(() => {
     cy.task("db:teardown");
     cy.task("db:seed");
+    cy.login();
   });
 
-  beforeEach(cy.login);
+  it("should add comments", () => {
+    cy.task("db:createPost", {
+      title: "Post",
+      body: "",
+      section: "ReallyCool",
+      owner: "Tester",
+      upsNum: 1,
+    });
 
-  it("should create section", () => {
-    cy.visit("");
-    cy.get(".btn-pill").click();
-    cy.get("#name").type("ReallyCool");
-    cy.get(".btn").click();
-    cy.url().should("contain", "ReallyCool");
-  });
-
-  it("should create post", () => {
-    cy.visit("/d/ReallyCool");
-    cy.contains("Create Post").click();
-    cy.get("#title").type(`Post`);
-    cy.get(".btn").click();
-    cy.contains(`Post`).should("exist");
-    cy.contains("d/ReallyCool").should("exist");
-    cy.get(".dark\\:bg-slate-800 > .text-gray-500").should("contain", "1");
-  });
-
-  it("should add comment", () => {
     cy.visit("");
     cy.get('[href^="/posts"]').click();
     cy.wrap(Array.from({ length: 5 })).each((_, index) => {

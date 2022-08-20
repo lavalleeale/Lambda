@@ -1,25 +1,16 @@
 /// <reference types="cypress" />
 
 describe("Test top sections view", () => {
-  before(() => {
+  beforeEach(() => {
     cy.task("db:teardown");
     cy.task("db:seed");
-  });
-
-  beforeEach(cy.login);
-
-  it("should create sections", () => {
-    cy.wrap(Array.from({ length: 6 })).each((_, index) => {
-      cy.visit("");
-      cy.get("#sidebar > div > a").should("have.length", index);
-      cy.get(".btn-pill").click();
-      cy.get("#name").type(`test${index}`);
-      cy.get(".btn").click();
-      cy.url().should("contain", `test${index}`);
-    });
+    cy.login();
   });
 
   it("should test initial order", () => {
+    cy.wrap(Array.from({ length: 6 })).each((_, index) => {
+      cy.task("db:createSection", { name: `test${index}`, owner: "Tester" });
+    });
     cy.visit("");
     cy.get("#sidebar > div > a").should("have.length", "5");
   });
@@ -27,11 +18,15 @@ describe("Test top sections view", () => {
   it("should test order changes", () => {
     cy.wrap(Array.from({ length: 6 })).each((_, index) => {
       cy.wrap(Array.from({ length: index + 1 })).each((_, count) => {
-        cy.visit(`/d/test${index}/submit`);
-        cy.get("#title").type(`Post ${count}`);
-        cy.get(".btn").click();
-        cy.contains(`Post`).should("exist");
+        cy.task("db:createPost", {
+          title: `Post ${count}`,
+          body: "",
+          section: `test${index}`,
+          owner: "Tester",
+          upsNum: 1,
+        });
       });
+
       cy.visit("");
       cy.get("#sidebar > div > a")
         .eq(0)
