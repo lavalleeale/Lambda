@@ -61,7 +61,9 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (
           upsNum: true,
           downsNum: true,
           section: {
-            select: { moderators: { where: { id }, select: { id: true } } },
+            select: {
+              moderators: { where: { id: id ?? "" }, select: { id: true } },
+            },
           },
           ups: { where: { id: id }, select: { name: true } },
           downs: { where: { id: id }, select: { name: true } },

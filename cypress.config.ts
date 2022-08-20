@@ -21,11 +21,18 @@ export default defineConfig({
           const keyText = config.env.key;
           return (async () => {
             const key = await readPrivateKey({ armoredKey: keyText });
-            return await prisma!.user.create({
+            await prisma!.user.create({
               data: {
                 key: key.getKeyID().toHex(),
                 name: "Tester",
                 id: "Tester",
+              },
+            });
+            return await prisma!.user.create({
+              data: {
+                key: "test",
+                name: "user2",
+                id: "user2",
               },
             });
           })();

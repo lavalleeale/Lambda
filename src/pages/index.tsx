@@ -72,7 +72,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
       author: { select: { name: true } },
       section: {
         select: {
-          moderators: { where: { id: user?.id }, select: { id: true } },
+          moderators: { where: { id: user?.id ?? "" }, select: { id: true } },
         },
       },
     },
