@@ -55,7 +55,9 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async (
       ups: { where: { id: id }, select: { name: true } },
       downs: { where: { id: id }, select: { name: true } },
       section: {
-        select: { moderators: { where: { id }, select: { id: true } } },
+        select: {
+          moderators: { where: { id: id ?? "" }, select: { id: true } },
+        },
       },
       comments: {
         where: { parentId: null },
