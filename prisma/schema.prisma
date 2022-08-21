@@ -64,10 +64,10 @@ model Comment {
   authorId  String
   depth     Int
 
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
 
   children Comment[] @relation("children")
-  parent   Comment?  @relation("children", fields: [parentId], references: [id])
+  parent   Comment?  @relation("children", fields: [parentId], references: [id], onDelete: Cascade)
   parentId String?
 }
