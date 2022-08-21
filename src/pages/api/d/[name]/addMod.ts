@@ -9,11 +9,10 @@ export default async function handler(
   if (req.body.name) {
     const userId = getId(req);
     if (userId) {
-      const test = await prisma!.section.update({
+      await prisma!.section.update({
         where: { name: req.query.name as string },
         data: { moderators: { connect: { name: req.body.name } } },
       });
-      console.log(test);
 
       return res.status(200).redirect(req.headers.referer ?? "/");
     }
