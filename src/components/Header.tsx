@@ -1,10 +1,10 @@
+import { IronSessionData } from "iron-session";
 import Link from "next/link";
-import { userCookie } from "../lib/user";
 import Login from "./Login";
 import Modal from "./Modal";
 
 type HeaderComponentProps = {
-  user: userCookie | null;
+  user: IronSessionData["user"] | null;
   dark: boolean;
   path: string;
 };

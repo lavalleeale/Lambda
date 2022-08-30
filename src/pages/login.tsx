@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Login from "../components/Login";
+import { withSessionSsr } from "../lib/user";
 
 const LoginPage: NextPage = () => {
   return (
@@ -13,9 +14,13 @@ const LoginPage: NextPage = () => {
   );
 };
 
-export const getServerSideProps = () => {
+export const getServerSideProps = withSessionSsr(async ({ req }) => {
+  if (req.headers.referer && !req.headers.referer.includes("login")) {
+    req.session.loginContinueTo = req.headers.referer;
+    await req.session.save();
+  }
   return { props: {} };
-};
+});
 
 export const config = {
   unstable_runtimeJS: false,

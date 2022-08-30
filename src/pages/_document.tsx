@@ -1,4 +1,5 @@
 import { parse, serialize } from "cookie";
+import { getIronSession, IronSessionData } from "iron-session";
 import Document, {
   DocumentContext,
   Head,
@@ -7,10 +8,10 @@ import Document, {
   NextScript,
 } from "next/document";
 import Header from "../components/Header";
-import { getId, userCookie } from "../lib/user";
+import { sessionOptions } from "../lib/user";
 
 interface Props {
-  user: userCookie | null;
+  user: IronSessionData["user"] | null;
   dark: boolean;
   path: string;
 }
@@ -19,6 +20,11 @@ class MyDocument extends Document<Props> {
   static async getInitialProps(ctx: DocumentContext) {
     var dark = true;
     const initialProps = await Document.getInitialProps(ctx);
+
+    const session =
+      ctx.req && ctx.res
+        ? await getIronSession(ctx.req, ctx.res, sessionOptions)
+        : null;
 
     if (ctx.query.swapMode === "night") {
       ctx.res?.setHeader("Set-Cookie", serialize("light", "", { path: "/" }));
@@ -36,7 +42,7 @@ class MyDocument extends Document<Props> {
 
     return {
       ...initialProps,
-      user: getId(ctx.req),
+      user: session?.user || null,
       dark,
       path: ctx.asPath?.split("?")[0],
     };

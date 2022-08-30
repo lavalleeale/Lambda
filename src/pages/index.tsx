@@ -1,9 +1,9 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type { NextPage } from "next";
 import Head from "next/head";
 import IndexSidebar from "../components/IndexSidebar";
 import Posts from "../components/Posts";
 import prisma from "../lib/prisma";
-import { getId } from "../lib/user";
+import { withSessionSsr } from "../lib/user";
 
 type HomePageProps = {
   posts: (PublicPostData & {
@@ -41,10 +41,8 @@ const Home: NextPage<HomePageProps> = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
-  ctx
-) => {
-  const user = getId(ctx.req);
+export const getServerSideProps = withSessionSsr<HomePageProps>(async (ctx) => {
+  const user = ctx.req.session.user;
   const page = ctx.query.page ? parseInt(ctx.query.page as string, 10) : 0;
   const sort: { [key: string]: "desc" | "asc" } =
     ctx.query.sort === "new"
@@ -92,7 +90,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async (
       currentUser: user?.name || null,
     },
   };
-};
+});
 
 export const config = {
   unstable_runtimeJS: false,

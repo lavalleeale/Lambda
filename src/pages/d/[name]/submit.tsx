@@ -1,8 +1,9 @@
-import type { GetServerSideProps, NextPage, PageConfig } from "next";
+import { IronSessionData } from "iron-session";
+import type { NextPage, PageConfig } from "next";
 import Head from "next/head";
-import { getId, userCookie } from "../../../lib/user";
+import { withSessionSsr } from "../../../lib/user";
 
-type NewPostProps = { user: userCookie | null; name: string | undefined };
+type NewPostProps = { user: IronSessionData["user"]; name: string | undefined };
 
 const NewPost: NextPage<NewPostProps> = ({ user, name }) => {
   if (!name) {
@@ -18,7 +19,7 @@ const NewPost: NextPage<NewPostProps> = ({ user, name }) => {
         <title>λ | Submit Post</title>
       </Head>
       <div className="paper overflow-auto">
-        <form action={user ? "/api/posts/submit" : "/login"} method="POST">
+        <form action={user ? "/api/posts/submit" : `/login`} method="POST">
           <p className="capitalize text-lg">Posting To: {name}</p>
           <label>
             Post Title
@@ -51,17 +52,14 @@ type NewPostParams = {
   name: string;
 };
 
-export const getServerSideProps: GetServerSideProps<
-  NewPostProps,
-  NewPostParams
-> = async (ctx) => {
+export const getServerSideProps = withSessionSsr<NewPostProps>(async (ctx) => {
   if (!ctx.params?.name) {
     return { notFound: true };
   }
   return {
-    props: { user: getId(ctx.req), name: ctx.params?.name },
+    props: { user: ctx.req.session.user, name: ctx.params!.name as string },
   };
-};
+});
 
 export const config: PageConfig = {
   unstable_runtimeJS: false,

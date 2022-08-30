@@ -30,24 +30,22 @@ import { createCleartextMessage, readPrivateKey, sign } from "openpgp";
 
 Cypress.Commands.add("login", () => {
   cy.session("Tester", () => {
-    cy.wrap(null).then(
-      /*{ timeout: 10000 }, */ async () => {
-        const keyText = Cypress.env("key");
-        const key = await readPrivateKey({ armoredKey: keyText });
-        const loginMessage = await createCleartextMessage({
-          text: "I am Tester and I wish to login",
-        });
-        const signedLoginMessage = await sign({
-          message: loginMessage, // CleartextMessage or Message object
-          signingKeys: key,
-        });
-        cy.visit("");
-        cy.get("#header > > label").click();
-        cy.get("#sig").type(signedLoginMessage, { delay: 0 });
-        cy.contains("Login / Sign up").click();
-        cy.getCookie("user").should("exist");
-      }
-    );
+    cy.wrap(null).then(async () => {
+      const keyText = Cypress.env("key");
+      const key = await readPrivateKey({ armoredKey: keyText });
+      const loginMessage = await createCleartextMessage({
+        text: "I am Tester and I wish to login",
+      });
+      const signedLoginMessage = await sign({
+        message: loginMessage,
+        signingKeys: key,
+      });
+      cy.visit("");
+      cy.get("#header > > label").click();
+      cy.get("#sig").type(signedLoginMessage, { delay: 0 });
+      cy.contains("Login / Sign up").click();
+      cy.get("#header").should("contain", "Tester");
+    });
   });
 });
 
