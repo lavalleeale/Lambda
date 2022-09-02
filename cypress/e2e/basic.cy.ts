@@ -27,7 +27,7 @@ describe("Basic Funcitonality", () => {
       { delay: 0 }
     );
     cy.get(".btn").click();
-    cy.get(".menu").should("exist");
+    cy.contains("\u2807").should("exist");
     cy.contains("d/ReallyCool").should("exist");
     cy.contains("u/Tester").should("exist");
   });

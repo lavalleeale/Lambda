@@ -17,7 +17,7 @@ describe("Test Deleting", () => {
     });
 
     cy.visit("");
-    cy.get(".menu-checker + label").click();
+    cy.contains("\u2807").click();
     cy.contains("Delete").click({ force: true });
     cy.contains("No Posts Found").should("exist");
   });

@@ -19,14 +19,14 @@ describe("Test Crossposting", () => {
     cy.task("db:createSection", { name: "to", owner: "Tester" });
 
     cy.visit("");
-    cy.get(".menu-checker + label").click();
+    cy.contains("\u2807").click();
     cy.contains("Crosspost").click({ force: true });
     cy.get(".textfield").type("to");
     cy.get(".btn").click();
     cy.contains("Body").should("exist");
     cy.contains("d/to").should("exist");
     cy.visit("");
-    cy.get(".menu-checker").should("have.length", 2);
+    cy.get("[id$=menu]").should("have.length", 2);
   });
 });
 
