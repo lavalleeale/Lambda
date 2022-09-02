@@ -30,7 +30,7 @@ describe("Test Commenting", () => {
 });
 
 function getAddComment(number: number) {
-  return cy.get(".modal-checker ~ label").eq(number);
+  return cy.get('label[for$="modal-checkbox"]').eq(number);
 }
 function getCommentField(number: number) {
   return cy.get('input[name="body"]').eq(number);

@@ -31,7 +31,7 @@ const SectionSidebar = ({
       ))}
       {modIds.length !== 0 && (
         <>
-          <Modal text={"Add"}>
+          <Modal text={"Add"} id="Add Mod">
             <form
               className="paper overflow-auto"
               action={`/api/d/${name}/addMod`}

@@ -34,7 +34,7 @@ const Header = ({ user, dark, path }: HeaderComponentProps) => {
             </a>
           </Link>
         ) : (
-          <Modal text="Login">
+          <Modal text="Login" id="header">
             <Login />
           </Modal>
         )}

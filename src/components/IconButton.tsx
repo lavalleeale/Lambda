@@ -28,7 +28,7 @@ const IconButton = ({
           alt={name}
           className="dark:filter dark:invert inline"
         />
-        <p className="inline ml-auto self-center">{name}</p>
+        <p className="inline pl-6 ml-auto self-center">{name}</p>
       </a>
     </Link>
   );

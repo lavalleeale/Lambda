@@ -3,8 +3,6 @@
 @tailwind utilities;
 
 @import "colors";
-@import "modal";
-@import "menu";
 
 html,
 body {
