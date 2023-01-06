@@ -1,33 +1,44 @@
-import { parse } from "cookie";
-import { IncomingMessage } from "http";
-import jwt from "jsonwebtoken";
+import { withIronSessionApiRoute, withIronSessionSsr } from "iron-session/next";
+import {
+  GetServerSidePropsContext,
+  GetServerSidePropsResult,
+  NextApiHandler,
+} from "next";
 import prisma from "./prisma";
 
-export type userCookie = {
-  id: string;
-  name: string;
+export const sessionOptions = {
+  password: process.env.SESSION_PASSWORD!,
+  cookieName: "lambda_session",
+  // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
+  cookieOptions: {
+    secure: process.env.NODE_ENV === "production",
+  },
 };
 
-export function getId(req: IncomingMessage | undefined) {
-  if (req && req.headers.cookie) {
-    const cookie = parse(req.headers.cookie, {});
-    if (cookie.user) {
-      if (process.env.NODE_ENV === "production") {
-        try {
-          return jwt.verify(cookie.user, process.env.JWT_PRIVATE, {
-            algorithms: ["HS256"],
-          }) as userCookie;
-        } catch (e) {
-          return null;
-        }
-      } else {
-        return jwt.decode(cookie.user) as userCookie;
-      }
-    }
-  }
-  return null;
+export function withSessionRoute(handler: NextApiHandler) {
+  return withIronSessionApiRoute(handler, sessionOptions);
 }
-export function getUser(req: IncomingMessage | undefined) {
-  const user = getId(req);
-  return user ? prisma?.user.findUnique({ where: { id: user.id } }) : null;
+
+export function withSessionSsr<
+  P extends { [key: string]: unknown } = { [key: string]: unknown }
+>(
+  handler: (
+    context: GetServerSidePropsContext
+  ) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>
+) {
+  return withIronSessionSsr(handler, sessionOptions);
+}
+
+declare module "iron-session" {
+  interface IronSessionData {
+    user?: {
+      id: string;
+      name: string;
+    };
+    loginContinueTo?: string;
+  }
+}
+
+export function getUser(userId: string | undefined) {
+  return userId ? prisma?.user.findUnique({ where: { id: userId } }) : null;
 }

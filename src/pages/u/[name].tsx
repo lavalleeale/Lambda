@@ -1,8 +1,8 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type { NextPage } from "next";
 import Head from "next/head";
 import PostComponent from "../../components/Post";
 import prisma from "../../lib/prisma";
-import { getId } from "../../lib/user";
+import { withSessionSsr } from "../../lib/user";
 
 type UserPageProps = {
   user: {
@@ -44,10 +44,8 @@ const UserPage: NextPage<UserPageProps> = ({ user, currentUser }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<UserPageProps> = async (
-  ctx
-) => {
-  const id = getId(ctx.req)?.id;
+export const getServerSideProps = withSessionSsr<UserPageProps>(async (ctx) => {
+  const currentUser = ctx.req.session.user;
   const user = await prisma!.user.findUnique({
     where: { name: ctx.params?.name as string },
     include: {
@@ -62,11 +60,17 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (
           downsNum: true,
           section: {
             select: {
-              moderators: { where: { id: id ?? "" }, select: { id: true } },
+              moderators: {
+                where: { id: currentUser?.id ?? "" },
+                select: { id: true },
+              },
             },
           },
-          ups: { where: { id: id }, select: { name: true } },
-          downs: { where: { id: id }, select: { name: true } },
+          ups: { where: { id: currentUser?.id ?? "" }, select: { name: true } },
+          downs: {
+            where: { id: currentUser?.id ?? "" },
+            select: { name: true },
+          },
           author: { select: { name: true } },
         },
       },
@@ -78,9 +82,9 @@ export const getServerSideProps: GetServerSideProps<UserPageProps> = async (
   }
 
   return {
-    props: { user, currentUser: id || null },
+    props: { user, currentUser: currentUser?.name ?? null },
   };
-};
+});
 
 export const config = {
   unstable_runtimeJS: false,

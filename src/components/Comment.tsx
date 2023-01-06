@@ -29,7 +29,7 @@ const Comment = ({ comment, user }: CommentComponentProps) => {
       <div className="paper overflow-auto">
         {comment.depth < 5 && (
           <div className="float-right">
-            <Modal text="Add Comment">
+            <Modal text="Add Comment" id={comment.id}>
               <CommentForm
                 commentId={comment.id}
                 user={user}

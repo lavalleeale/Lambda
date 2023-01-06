@@ -1,8 +1,9 @@
-import type { GetServerSideProps, NextPage, PageConfig } from "next";
+import { IronSessionData } from "iron-session";
+import type { NextPage, PageConfig } from "next";
 import Head from "next/head";
-import { getId, userCookie } from "../../lib/user";
+import { withSessionSsr } from "../../lib/user";
 
-type NewSectionProps = { user: userCookie | null; error: string | null };
+type NewSectionProps = { user: IronSessionData["user"]; error: string | null };
 
 const NewSection: NextPage<NewSectionProps> = ({ user, error }) => {
   return (
@@ -35,16 +36,16 @@ const NewSection: NextPage<NewSectionProps> = ({ user, error }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<NewSectionProps> = async (
-  ctx
-) => {
-  return {
-    props: {
-      user: getId(ctx.req),
-      error: ctx.query.error ? (ctx.query.error as string) : null,
-    },
-  };
-};
+export const getServerSideProps = withSessionSsr<NewSectionProps>(
+  async (ctx) => {
+    return {
+      props: {
+        user: ctx.req.session.user,
+        error: ctx.query.error ? (ctx.query.error as string) : null,
+      },
+    };
+  }
+);
 
 export const config: PageConfig = {
   unstable_runtimeJS: false,

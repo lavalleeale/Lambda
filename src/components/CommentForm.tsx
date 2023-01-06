@@ -14,7 +14,7 @@ const CommentForm = ({
   return (
     <form
       className="paper overflow-auto"
-      action={user ? `/api/${type}s/${commentId || postId}/comment` : "/login"}
+      action={user ? `/api/${type}s/${commentId || postId}/comment` : `/login`}
       method="POST"
     >
       <input type="hidden" id="postId" name="postId" value={postId}></input>

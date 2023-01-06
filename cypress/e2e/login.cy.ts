@@ -20,7 +20,7 @@ describe("Test Authentication", () => {
         }).then((signedLoginMessage) => {
           cy.visit("");
           cy.getCookie("user").should("not.exist");
-          cy.get(".modal-checker ~ label").click();
+          cy.get('label[for$="modal-checkbox"]').click();
           cy.get("#sig").type(signedLoginMessage, { delay: 0 });
           cy.get(".btn").click();
           cy.getCookie("user").should("exist");

@@ -1,16 +1,17 @@
-import type { GetServerSideProps, NextPage } from "next";
+import { IronSessionData } from "iron-session";
+import type { NextPage } from "next";
 import Head from "next/head";
 import Comment, { commentType } from "../../../components/Comment";
 import PostComponent from "../../../components/Post";
 import prisma from "../../../lib/prisma";
-import { getId, userCookie } from "../../../lib/user";
+import { withSessionSsr } from "../../../lib/user";
 
 type PostPageProps = {
   post: PublicPostData & {
     comments: commentType[];
     section: { moderators: {}[] };
   };
-  user: userCookie | null;
+  user: IronSessionData["user"] | null;
 };
 
 const PostPage: NextPage<PostPageProps> = ({ post, user }) => {
@@ -27,10 +28,8 @@ const PostPage: NextPage<PostPageProps> = ({ post, user }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<PostPageProps> = async (
-  ctx
-) => {
-  const id = getId(ctx.req)?.id;
+export const getServerSideProps = withSessionSsr<PostPageProps>(async (ctx) => {
+  const id = ctx.req.session.user?.id;
   const commentSelect = {
     depth: true,
     postId: true,
@@ -55,7 +54,9 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async (
       ups: { where: { id: id }, select: { name: true } },
       downs: { where: { id: id }, select: { name: true } },
       section: {
-        select: { moderators: { where: { id }, select: { id: true } } },
+        select: {
+          moderators: { where: { id: id ?? "" }, select: { id: true } },
+        },
       },
       comments: {
         where: { parentId: null },
@@ -86,9 +87,9 @@ export const getServerSideProps: GetServerSideProps<PostPageProps> = async (
   }
 
   return {
-    props: { post, user: getId(ctx.req) },
+    props: { post, user: ctx.req.session.user || null },
   };
-};
+});
 
 export const config = {
   unstable_runtimeJS: false,

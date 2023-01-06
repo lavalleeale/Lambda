@@ -2,6 +2,14 @@ import { defineConfig } from "cypress";
 import { readPrivateKey } from "openpgp";
 import prisma from "./src/lib/prisma";
 
+type PostCreationInput = {
+  title: string;
+  body: string;
+  section: string;
+  owner: string;
+  upsNum?: number;
+};
+
 export default defineConfig({
   redirectionLimit: 100,
   e2e: {
@@ -51,40 +59,32 @@ export default defineConfig({
             });
           })();
         },
-        "db:createPost": ({
+        "db:createPost": async ({
           title,
           body,
           section,
           owner,
           upsNum,
-        }: {
-          title: string;
-          body: string;
-          section: string;
-          owner: string;
-          upsNum?: number;
-        }) => {
-          return (async () => {
-            return await prisma!.post.create({
-              data: {
-                title,
-                body,
-                author: {
-                  connectOrCreate: {
-                    where: { name: owner },
-                    create: { name: owner, key: owner },
-                  },
+        }: PostCreationInput) => {
+          return await prisma!.post.create({
+            data: {
+              title,
+              body,
+              author: {
+                connectOrCreate: {
+                  where: { name: owner },
+                  create: { name: owner, key: owner },
                 },
-                section: {
-                  connectOrCreate: {
-                    where: { name: section },
-                    create: { name: section },
-                  },
-                },
-                upsNum,
               },
-            });
-          })();
+              section: {
+                connectOrCreate: {
+                  where: { name: section },
+                  create: { name: section },
+                },
+              },
+              upsNum,
+            },
+          });
         },
       });
     },

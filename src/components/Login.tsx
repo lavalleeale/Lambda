@@ -4,7 +4,7 @@ const Login = () => {
   return (
     <form
       className="paper overflow-auto text-black"
-      action="/api/signup"
+      action="/api/login"
       method="POST"
     >
       <h3 className="text-3xl text-center">Login</h3>

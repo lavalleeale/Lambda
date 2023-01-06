@@ -18,7 +18,7 @@ describe("Section Moderation", () => {
     });
 
     cy.visit("d/ReallyCool");
-    cy.get("#sidebar > .modal-checker ~ label").click();
+    cy.get('#sidebar > label[for$="modal-checkbox"]').click();
     cy.get("#name").type("user2");
     cy.get(".btn").click();
     cy.get("#sidebar").should("contain", "u/user2");

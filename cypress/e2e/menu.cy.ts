@@ -17,7 +17,7 @@ describe("Test menu options", () => {
 
     cy.login();
     cy.visit("");
-    cy.get(".menu").should("exist");
+    cy.contains("\u2807").should("exist");
   });
 
   it("should test only crossposting exists", () => {
@@ -31,13 +31,13 @@ describe("Test menu options", () => {
 
     cy.login();
     cy.visit("");
-    cy.get(".menu").should("not.exist");
+    cy.contains("\u2807").should("not.exist");
     cy.contains("Crosspost").should("exist");
   });
 
   it("should test no options exist", () => {
     cy.visit("");
-    cy.get(".menu").should("not.exist");
+    cy.contains("\u2807").should("not.exist");
     cy.contains("Crosspost").should("not.exist");
     cy.contains("Delete").should("not.exist");
   });

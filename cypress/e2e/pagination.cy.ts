@@ -16,6 +16,7 @@ describe("Test Pagination", () => {
         owner: "Tester",
         upsNum: 1,
       });
+      cy.wait(10);
     });
 
     cy.visit("");
@@ -32,6 +33,7 @@ describe("Test Pagination", () => {
         owner: "Tester",
         upsNum: 1,
       });
+      cy.wait(10);
     });
 
     cy.visit("");
@@ -50,6 +52,7 @@ describe("Test Pagination", () => {
         owner: "Tester",
         upsNum: 1,
       });
+      cy.wait(10);
     });
 
     cy.visit("");
