@@ -2,7 +2,7 @@
 
 ## Preview
 
-![Preview](https://github.com/lavalleeale/lambda/blob/main/preview.png?raw=true)
+![Preview](https://github.com/lavalleeale/lambda/blob/master/preview.png?raw=true)
 
 ## What is this?
 
